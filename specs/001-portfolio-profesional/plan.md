@@ -60,7 +60,7 @@ idioma al instante sin cambiar la URL, con la elección persistida. Dependencias
 versiones concretas.
 
 **Scale/Scope**: 1 página, 6 secciones (presentación, habilidades, formación,
-proyectos, contacto y navegación), 4 proyectos, ~5 categorías de habilidades, 2
+proyectos, contacto y navegación), 4 proyectos, 6 categorías de habilidades, 2
 elementos de formación, 3 canales de contacto, 2 idiomas completos.
 
 ## Constitution Check

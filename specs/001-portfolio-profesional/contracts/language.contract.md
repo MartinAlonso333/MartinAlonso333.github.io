@@ -61,6 +61,9 @@ Cubre FR-001 (bilingüe), FR-017, FR-014 y SC-010, en conjunto con
   (p. ej. mostrar el idioma destino "EN"/"ES").
 - El texto debe conservar contraste AA en ambos idiomas y ajustarse sin romper el layout a
   320 px (FR-012, SC-003).
+- La etiqueta del botón de copiado del correo (`ui.contact.copyEmail`) y su confirmación
+  (`ui.contact.copied`, "Copiado"/"Copied") también provienen de `ui.ts`; la confirmación
+  se anuncia con `aria-live="polite"` y desaparece sola (FR-010).
 
 ## Acceptance checks
 

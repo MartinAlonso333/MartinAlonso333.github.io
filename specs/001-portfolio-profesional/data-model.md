@@ -10,7 +10,8 @@ componentes. Vive en `src/content/portfolio.ts` y se describe con las interfaces
 El contenido es **bilingüe**: todo texto legible se modela como `LocalizedText`
 (`{ es: string; en: string }`), de modo que el idioma se resuelve en tiempo de render sin
 duplicar la página. Los nombres propios, las tecnologías y los datos de contacto no se
-traducen (permanecen como `string`).
+traducen (permanecen como `string`); cuando el nombre de una habilidad es una frase
+localizable, se admite `LocalizedText` como `SkillItem`.
 
 ## Diagrama de relaciones
 
@@ -20,7 +21,7 @@ PortfolioContent
 │   ├── professionalTitle/summary/location: LocalizedText
 │   ├── languages: SpokenLanguage[]   (name/level: LocalizedText)
 │   └── photo?: PhotoRef              (alt: LocalizedText)
-├── skills: SkillCategory[]           (name: LocalizedText; skills: string[])
+├── skills: SkillCategory[]           (name: LocalizedText; skills: SkillItem[])
 ├── education: EducationItem[]        (program/institution/status: LocalizedText)
 ├── projects: Project[]               (name/description/highlights: LocalizedText)
 │   └── repositories: RepositoryRef[] (label: LocalizedText)
@@ -74,8 +75,11 @@ Idioma hablado por Franco.
 Agrupación de habilidades (FR-004).
 - `id: string` — identificador estable y único
 - `name: LocalizedText` — "Lenguajes"/"Languages", "Backend", "Bases de datos"/"Databases",
-  "Infraestructura y monitoreo"/"Infrastructure and monitoring", "Frontend"
-- `skills: string[]` — tecnologías de la categoría (nombres propios, no se traducen)
+  "Infraestructura y monitoreo"/"Infrastructure & monitoring", "Frontend",
+  "Metodología"/"Methodology"
+- `skills: SkillItem[]` — tecnologías de la categoría; los nombres propios se modelan como
+  `string` (no se traducen) y las frases localizables como `LocalizedText`, donde
+  `SkillItem = string | LocalizedText`
 
 ### EducationItem
 Formación (FR-005).
@@ -116,6 +120,15 @@ Canal de contacto (FR-010).
 - `value: LocalizedText` — correo o usuario; LinkedIn pendiente ("Próximamente"/"Coming soon")
 - `url?: string` — ausente cuando `available === false`
 - `available: boolean` — `false` para LinkedIn por ahora (espacio reservado)
+
+#### Render por tipo (FR-010)
+- **email** (`available`): el correo se muestra como **texto seleccionable**, no como enlace
+  `mailto:` ni botón, acompañado de un **botón de copiado** accesible que confirma la acción
+  brevemente ("Copiado"/"Copied") y la anuncia con `aria-live="polite"`; si el portapapeles no
+  está disponible, no se muestra ningún error y el texto sigue siendo seleccionable.
+- **github** (`available` + `url`): enlace externo (se abre en una pestaña nueva), como los
+  botones de repositorio.
+- **linkedin** (`available === false`): espacio reservado sin enlace roto.
 
 ### CvResource
 Botón de descarga del CV (FR-011).

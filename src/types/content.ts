@@ -30,11 +30,13 @@ export interface Profile {
   photo?: PhotoRef;
 }
 
+/** Nombre de habilidad: los nombres propios se dejan como `string`; las frases se localizan. */
+export type SkillItem = string | LocalizedText;
+
 export interface SkillCategory {
   id: string;
   name: LocalizedText;
-  /** Nombres propios de tecnologías: no se traducen. */
-  skills: string[];
+  skills: SkillItem[];
 }
 
 export interface EducationItem {

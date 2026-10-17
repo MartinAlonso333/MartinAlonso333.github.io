@@ -29,6 +29,10 @@ export interface UiContent {
   };
   privateRepository: LocalizedText;
   repositoryLinkAriaSuffix: LocalizedText;
+  contact: {
+    copyEmail: LocalizedText;
+    copied: LocalizedText;
+  };
   educationType: {
     grado: LocalizedText;
     curso: LocalizedText;
@@ -86,6 +90,10 @@ export const ui: UiContent = {
   },
   privateRepository: { es: "Repositorio privado", en: "Private repository" },
   repositoryLinkAriaSuffix: { es: "se abre en una nueva pestaña", en: "opens in a new tab" },
+  contact: {
+    copyEmail: { es: "Copiar correo electrónico", en: "Copy email address" },
+    copied: { es: "Copiado", en: "Copied" },
+  },
   educationType: {
     grado: { es: "Grado", en: "Degree" },
     curso: { es: "Curso", en: "Course" },

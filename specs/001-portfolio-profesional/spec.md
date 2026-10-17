@@ -63,11 +63,11 @@ Un visitante revisa las habilidades técnicas de Franco organizadas por categor�
 
 **Why this priority**: Complementa la evidencia de los proyectos y facilita un rápido emparejamiento con ofertas concretas.
 
-**Independent Test**: Se puede probar verificando que las habilidades aparecen agrupadas en Lenguajes, Backend, Bases de datos, Infraestructura y monitoreo, y Frontend, con las tecnologías indicadas en cada grupo.
+**Independent Test**: Se puede probar verificando que las habilidades aparecen agrupadas en Lenguajes, Backend, Bases de datos, Infraestructura y monitoreo, Frontend, y Metodología, con las tecnologías indicadas en cada grupo.
 
 **Acceptance Scenarios**:
 
-1. **Given** un visitante revisa la sección de habilidades, **When** la recorre, **Then** ve las categorías Lenguajes (Java, C++, TypeScript, JavaScript), Backend (Spring Boot 3.x, Spring Data JPA, Hibernate, Spring Security, Maven), Bases de datos (PostgreSQL), Infraestructura y monitoreo (Docker, Spring Boot Actuator) y Frontend (React).
+1. **Given** un visitante revisa la sección de habilidades, **When** la recorre, **Then** ve las categorías Lenguajes (Java, C++, TypeScript, JavaScript, Python), Backend (Spring Boot 3.x, Spring Data JPA, Hibernate, Spring Security, Maven, Gradle, REST APIs, JUnit), Bases de datos (PostgreSQL), Infraestructura y monitoreo (Docker, Spring Boot Actuator, Git, GitHub, GitHub Actions, Render), Frontend (React, Next.js, Tailwind CSS, HTML and CSS, JavaFX) y Metodología (Spec-Driven Development con Spec Kit).
 
 ---
 
@@ -151,13 +151,13 @@ Un visitante que prefiere leer en inglés (o un reclutador internacional) puede 
 - **FR-001**: El sitio MUST ser una página única, con tono formal, orientada a reclutadores y profesionales que evalúan candidatos para pasantías o primer empleo backend, y MUST estar disponible en español e inglés.
 - **FR-002**: El sitio MUST presentar el nombre completo (Franco Martín Alonso), el título profesional (estudiante de 4.º año de Ingeniería Informática en FIUBA, en busca de pasantía o primer empleo como desarrollador backend), una descripción breve, la ubicación (Buenos Aires, Argentina) y los idiomas (español nativo, inglés intermedio, portugués básico).
 - **FR-003**: La presentación MUST incluir un espacio reservado para la foto de perfil, que se incorporará más adelante, sin que su ausencia rompa el diseño.
-- **FR-004**: El sitio MUST incluir una sección de habilidades agrupadas por categoría: Lenguajes (Java, C++, TypeScript, JavaScript), Backend (Spring Boot 3.x, Spring Data JPA, Hibernate, Spring Security, Maven), Bases de datos (PostgreSQL), Infraestructura y monitoreo (Docker, Spring Boot Actuator) y Frontend (React).
+- **FR-004**: El sitio MUST incluir una sección de habilidades agrupadas por categoría: Lenguajes (Java, C++, TypeScript, JavaScript, Python), Backend (Spring Boot 3.x, Spring Data JPA, Hibernate, Spring Security, Maven, Gradle, REST APIs, JUnit), Bases de datos (PostgreSQL), Infraestructura y monitoreo (Docker, Spring Boot Actuator, Git, GitHub, GitHub Actions, Render), Frontend (React, Next.js, Tailwind CSS, HTML and CSS, JavaFX) y Metodología (Spec-Driven Development con Spec Kit).
 - **FR-005**: El sitio MUST incluir una sección de formación con, al menos, Ingeniería Informática en FIUBA (cursando 4.º año) y un curso de JavaScript.
 - **FR-006**: El sitio MUST incluir una sección de proyectos destacados que contenga los cuatro proyectos: Al Toque, el simulador de granja multijugador y multihilo en C++, PSA y Yet Another Battle City.
 - **FR-007**: Cada proyecto MUST mostrar nombre, descripción, puntos clave, tecnologías y su estado.
 - **FR-008**: Cada proyecto MUST exponer una lista de repositorios, cada uno con una etiqueta. Los repositorios MUST mostrarse como enlaces a GitHub cuando su enlace esté disponible; los repositorios privados (Al Toque y el simulador de granja) MUST mostrar la etiqueta "Repositorio privado" en lugar de un enlace; los repositorios públicos cuyo enlace aún no esté disponible MUST mostrarse como pendientes (sin enlace y sin la etiqueta de privado), sin generar enlaces rotos.
 - **FR-009**: Los proyectos en curso (Al Toque y el simulador de granja) MUST mostrar la etiqueta "En desarrollo".
-- **FR-010**: El sitio MUST incluir una sección de contacto con el correo 04francomartin@gmail.com y el perfil de GitHub (MartinAlonso333), y MUST reservar un espacio para el enlace de LinkedIn que se agregará más adelante.
+- **FR-010**: El sitio MUST incluir una sección de contacto con el correo 04francomartin@gmail.com y el perfil de GitHub (MartinAlonso333), y MUST reservar un espacio para el enlace de LinkedIn que se agregará más adelante. El correo MUST mostrarse como texto seleccionable (no como enlace `mailto:`), acompañado de un botón accesible para copiarlo que confirme brevemente la acción (anunciada a lectores de pantalla); si el portapapeles no está disponible, no MUST mostrarse ningún error y el texto MUST seguir siendo seleccionable.
 - **FR-011**: El sitio MUST incluir un botón para descargar el CV en formato PDF; mientras el archivo no esté disponible, el botón MUST apuntar a una ubicación reservada que no conduzca a un enlace roto ni a una página de error.
 - **FR-012**: El sitio MUST ser responsive y visualizarse correctamente tanto en celular como en computadora, sin scroll horizontal ni solapamiento de contenido entre 320 px y 1920 px de ancho.
 - **FR-013**: El sitio MUST ofrecer modo claro y modo oscuro, respetando la preferencia del sistema operativo y permitiendo alternarla manualmente; la elección del visitante MUST persistir entre visitas.
@@ -170,7 +170,7 @@ Un visitante que prefiere leer en inglés (o un reclutador internacional) puede 
 
 - **Perfil**: información de presentación de Franco; atributos: nombre completo, título profesional, descripción breve, ubicación, idiomas, referencia a foto (opcional/futura).
 - **Habilidad**: tecnología o competencia individual; atributos: nombre; pertenece a una categoría.
-- **Categoría de habilidad**: agrupación de habilidades; atributos: nombre (Lenguajes, Backend, Bases de datos, Infraestructura y monitoreo, Frontend); contiene varias habilidades.
+- **Categoría de habilidad**: agrupación de habilidades; atributos: nombre (Lenguajes, Backend, Bases de datos, Infraestructura y monitoreo, Frontend, Metodología); contiene varias habilidades.
 - **Formación**: estudio o curso realizado; atributos: nombre, institución, estado (por ejemplo, cursando), tipo.
 - **Proyecto**: trabajo mostrado; atributos: nombre, descripción, puntos clave, tecnologías, estado (en desarrollo / finalizado) y lista de repositorios; cada repositorio tiene etiqueta (por ejemplo, "Código fuente", "Código backend"), visibilidad (público / privado) y enlace a GitHub cuando esté disponible (los públicos sin enlace quedan pendientes).
 - **Medio de contacto**: canal para contactar a Franco; atributos: tipo (correo, GitHub, LinkedIn), valor, disponibilidad (disponible o pendiente).

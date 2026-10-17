@@ -10,8 +10,9 @@ declaran en `src/types/content.ts` y son la referencia normativa.
 El contenido es **bilingüe**: todo texto legible se declara como `LocalizedText`
 (`Record<Language, string>`) y se resuelve con `pick(text, language)`. Los nombres
 propios, las tecnologías y los correos/usuarios permanecen como `string` (no se
-traducen). Los textos de interfaz viven en `src/content/ui.ts` (mismo patrón) y se
-documentan en `language.contract.md`.
+traducen); el nombre de una habilidad que sea una frase localizable se declara como
+`LocalizedText` (`SkillItem = string | LocalizedText`). Los textos de interfaz viven en
+`src/content/ui.ts` (mismo patrón) y se documentan en `language.contract.md`.
 
 ## Interface
 
@@ -43,10 +44,12 @@ export interface Profile {
   photo?: PhotoRef;
 }
 
+export type SkillItem = string | LocalizedText;
+
 export interface SkillCategory {
   id: string;
   name: LocalizedText;
-  skills: string[]; // nombres propios de tecnologías, no se traducen
+  skills: SkillItem[]; // nombres propios como string (no se traducen) o frases localizables
 }
 
 export interface EducationItem {

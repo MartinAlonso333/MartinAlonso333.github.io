@@ -50,7 +50,7 @@ Proyecto único en la raíz del repositorio. Paths: `src/`, `public/`,
 **⚠️ CRITICAL**: Ninguna historia puede comenzar hasta terminar esta fase.
 
 - [x] T007 Create content interfaces in `src/types/content.ts` exactly as defined in contracts/content-model.contract.md: tipos base `Language` (`'es' | 'en'`) y `LocalizedText` (`Record<Language, string>`); `PortfolioContent`, `Profile` (con campos localizados), `SpokenLanguage` (antes `Language`), `PhotoRef` (`alt` localizado), `SkillCategory` (`name` localizado), `EducationItem` (campos localizados), `Project` con `repositories: RepositoryRef[]`, `RepositoryRef` con `label` localizado/`visibility`/`url?`, `ProjectStatus`, `RepositoryVisibility`, `ContactLink` (`label`/`value` localizados), `ContactKind`, `CvResource`
-- [x] T008 Populate `src/content/portfolio.ts` with all bilingual content (perfil de Franco, 5 categorías de habilidades, 2 ítems de formación, 4 proyectos, 3 contactos, recurso CV) satisfying all invariants of data-model.md: `id` único por colección; `repositories` con al menos un elemento por proyecto; `visibility === 'private'` ⇒ sin `url`; repositorio público con `url` ⇒ enlace disponible; repositorio público sin `url` ⇒ estado "pendiente"; `available === false` (LinkedIn, CV) ⇒ sin `url`; `photo.available === false`; PSA con dos repositorios ("Código backend"/"Backend code" y "Código frontend"/"Frontend code") y los de un solo repositorio con "Código fuente"/"Source code"; todo `LocalizedText` con `es` y `en`; dejar un comentario `TODO` con la URL a cargar en los repositorios pendientes (depende de T007)
+- [x] T008 Populate `src/content/portfolio.ts` with all bilingual content (perfil de Franco, 6 categorías de habilidades, 2 ítems de formación, 4 proyectos, 3 contactos, recurso CV) satisfying all invariants of data-model.md: `id` único por colección; `repositories` con al menos un elemento por proyecto; `visibility === 'private'` ⇒ sin `url`; repositorio público con `url` ⇒ enlace disponible; repositorio público sin `url` ⇒ estado "pendiente"; `available === false` (LinkedIn, CV) ⇒ sin `url`; `photo.available === false`; PSA con dos repositorios ("Código backend"/"Backend code" y "Código frontend"/"Frontend code") y los de un solo repositorio con "Código fuente"/"Source code"; todo `LocalizedText` con `es` y `en`; dejar un comentario `TODO` con la URL a cargar en los repositorios pendientes (depende de T007)
 - [x] T009 [P] Create derived labels/selectors in `src/lib/content.ts`: función de etiqueta de estado (`'in-progress'` → "En desarrollo"/"In progress", `'completed'` → "Finalizado"/"Completed") y de repositorio (`'private'` → "Repositorio privado"/"Private repository", público con `url` → enlace, público sin `url` → pendiente), tomando los textos de `src/content/ui.ts` y recibiendo el idioma activo, sin duplicar esos textos en `portfolio.ts` (contracts/content-model.contract.md, contracts/language.contract.md)
 - [x] T010 [P] Create theme constants/helpers in `src/lib/theme.ts`: clave `theme` de `localStorage` como constante única, valores permitidos `['light','dark','system']`, y función de resolución de tema efectivo (contracts/theme.contract.md)
 - [x] T011 Configure `src/app/globals.css`: `@import "tailwindcss"`, tokens semánticos de color y `@custom-variant dark (&:where(.dark, .dark *));` (contracts/theme.contract.md)
@@ -92,12 +92,12 @@ Proyecto único en la raíz del repositorio. Paths: `src/`, `public/`,
 
 ## Phase 5: User Story 3 - Evaluar habilidades por categoría (Priority: P2)
 
-**Goal**: Habilidades agrupadas en las 5 categorías con sus tecnologías.
+**Goal**: Habilidades agrupadas en las 6 categorías con sus tecnologías.
 
-**Independent Test**: Verificar las 5 categorías y sus tecnologías (quickstart V3).
+**Independent Test**: Verificar las 6 categorías y sus tecnologías (quickstart V3).
 
-- [ ] T021 [P] [US3] Create `src/components/Skills.tsx` (client) rendering `content.skills` agrupadas por categoría (`name` localizado + lista de `skills`), HTML semántico, resolviendo el idioma activo con `useLanguage()` (FR-004)
-- [ ] T022 [US3] Integrate Skills into `src/app/page.tsx` dentro de `<section id="skills">`
+- [x] T021 [P] [US3] Create `src/components/Skills.tsx` (client) rendering `content.skills` agrupadas por categoría (`name` localizado + lista de `skills`), HTML semántico, resolviendo el idioma activo con `useLanguage()` (FR-004)
+- [x] T022 [US3] Integrate Skills into `src/app/page.tsx` dentro de `<section id="skills">`
 
 **Checkpoint**: US3 funcional de forma independiente.
 
@@ -109,8 +109,8 @@ Proyecto único en la raíz del repositorio. Paths: `src/`, `public/`,
 
 **Independent Test**: Correo y GitHub funcionan; LinkedIn reservado sin enlace roto (quickstart V4).
 
-- [ ] T023 [P] [US4] Create `src/components/Contact.tsx` (client) rendering `content.contact` con textos localizados (`label`/`value`): enlaces `mailto:` (04francomartin@gmail.com) y GitHub (MartinAlonso333); si `available === false` (LinkedIn) mostrar espacio reservado sin enlace (FR-010, contract invariante 4)
-- [ ] T024 [US4] Integrate Contact into `src/app/page.tsx` dentro de `<section id="contact">`
+- [x] T023 [P] [US4] Create `src/components/Contact.tsx` (client) rendering `content.contact` con textos localizados (`label`/`value`): el correo (04francomartin@gmail.com) se muestra como texto seleccionable (sin enlace `mailto:`) con un botón pequeño de copiar (etiqueta accesible localizada, operable por teclado, foco visible, objetivo táctil ≥ 44 px) que confirma "Copiado"/"Copied" con `aria-live="polite"` durante unos segundos y sin error si el portapapeles no está disponible; GitHub (MartinAlonso333) como enlace; si `available === false` (LinkedIn) mostrar espacio reservado sin enlace (FR-010, contract invariante 4)
+- [x] T024 [US4] Integrate Contact into `src/app/page.tsx` dentro de `<section id="contact">`
 
 **Checkpoint**: US4 funcional de forma independiente.
 
@@ -122,8 +122,8 @@ Proyecto único en la raíz del repositorio. Paths: `src/`, `public/`,
 
 **Independent Test**: Verificar FIUBA (cursando 4.º año) y curso de JavaScript (quickstart V3).
 
-- [ ] T025 [P] [US5] Create `src/components/Education.tsx` (client) rendering `content.education` (programa, institución, estado y tipo localizados) con HTML semántico (FR-005)
-- [ ] T026 [US5] Integrate Education into `src/app/page.tsx` dentro de `<section id="education">`
+- [x] T025 [P] [US5] Create `src/components/Education.tsx` (client) rendering `content.education` (programa, institución, estado y tipo localizados) con HTML semántico (FR-005)
+- [x] T026 [US5] Integrate Education into `src/app/page.tsx` dentro de `<section id="education">`
 
 **Checkpoint**: US5 funcional de forma independiente.
 

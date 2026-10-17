@@ -59,11 +59,14 @@ npm run lint             # ESLint sin errores
   privado.
 
 ### V3 — Habilidades y formación (US3/US5, FR-004/FR-005)
-- Las 5 categorías de habilidades con sus tecnologías.
+- Las 6 categorías de habilidades (Lenguajes, Backend, Bases de datos, Infraestructura y
+  monitoreo, Frontend y Metodología) con sus tecnologías.
 - Formación: FIUBA (cursando 4.º año) y curso de JavaScript.
 
 ### V4 — Contacto y CV (US4/US6, FR-010/FR-011)
-- Correo `04francomartin@gmail.com` y GitHub `MartinAlonso333` funcionan.
+- Correo `04francomartin@gmail.com` como texto seleccionable con botón de copiado (confirma
+  "Copiado"/"Copied" y lo anuncia con `aria-live`); sin enlace `mailto:`.
+- GitHub `MartinAlonso333` funciona.
 - LinkedIn: espacio reservado sin enlace roto.
 - Botón de CV: sin PDF, no lleva a error.
 

@@ -37,12 +37,21 @@ export const portfolio: PortfolioContent = {
     {
       id: "lenguajes",
       name: { es: "Lenguajes", en: "Languages" },
-      skills: ["Java", "C++", "TypeScript", "JavaScript"],
+      skills: ["Java", "C++", "TypeScript", "JavaScript", "Python"],
     },
     {
       id: "backend",
       name: { es: "Backend", en: "Backend" },
-      skills: ["Spring Boot 3.x", "Spring Data JPA", "Hibernate", "Spring Security", "Maven"],
+      skills: [
+        "Spring Boot 3.x",
+        "Spring Data JPA",
+        "Hibernate",
+        "Spring Security",
+        "Maven",
+        "Gradle",
+        "REST APIs",
+        "JUnit",
+      ],
     },
     {
       id: "bases-de-datos",
@@ -51,13 +60,23 @@ export const portfolio: PortfolioContent = {
     },
     {
       id: "infraestructura",
-      name: { es: "Infraestructura y monitoreo", en: "Infrastructure and monitoring" },
-      skills: ["Docker", "Spring Boot Actuator"],
+      name: { es: "Infraestructura y monitoreo", en: "Infrastructure & monitoring" },
+      skills: ["Docker", "Spring Boot Actuator", "Git", "GitHub", "GitHub Actions", "Render"],
     },
     {
       id: "frontend",
       name: { es: "Frontend", en: "Frontend" },
-      skills: ["React"],
+      skills: ["React", "Next.js", "Tailwind CSS", "HTML and CSS", "JavaFX"],
+    },
+    {
+      id: "metodologia",
+      name: { es: "Metodología", en: "Methodology" },
+      skills: [
+        {
+          es: "Spec-Driven Development con Spec Kit",
+          en: "Spec-Driven Development with Spec Kit",
+        },
+      ],
     },
   ],
   education: [
