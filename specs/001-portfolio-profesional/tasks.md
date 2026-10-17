@@ -20,7 +20,7 @@ y validación independientes.
 ## Format: `[ID] [P?] [Story] Description`
 
 - **[P]**: puede ejecutarse en paralelo (archivo distinto, sin dependencias pendientes)
-- **[Story]**: historia de usuario (US1–US6)
+- **[Story]**: historia de usuario (US1–US7)
 - Cada tarea incluye la ruta exacta del archivo
 
 ## Path Conventions
@@ -49,9 +49,9 @@ Proyecto único en la raíz del repositorio. Paths: `src/`, `public/`,
 
 **⚠️ CRITICAL**: Ninguna historia puede comenzar hasta terminar esta fase.
 
-- [x] T007 Create content interfaces in `src/types/content.ts` exactly as defined in contracts/content-model.contract.md (`PortfolioContent`, `Profile`, `Language`, `PhotoRef`, `SkillCategory`, `EducationItem`, `Project` con `repositories: RepositoryRef[]`, `RepositoryRef` con `label`/`visibility`/`url?`, `ProjectStatus`, `RepositoryVisibility`, `ContactLink`, `ContactKind`, `CvResource`)
-- [x] T008 Populate `src/content/portfolio.ts` with all content (perfil de Franco, 5 categorías de habilidades, 2 ítems de formación, 4 proyectos, 3 contactos, recurso CV) satisfying all invariants of data-model.md: `id` único por colección; `repositories` con al menos un elemento por proyecto; `visibility === 'private'` ⇒ sin `url`; repositorio público con `url` ⇒ enlace disponible; repositorio público sin `url` ⇒ estado "pendiente"; `available === false` (LinkedIn, CV) ⇒ sin `url`; `photo.available === false`; PSA con dos repositorios ("Código backend" y "Código frontend") y los de un solo repositorio con "Código fuente"; dejar un comentario `TODO` con la URL a cargar en los repositorios pendientes (depende de T007)
-- [x] T009 [P] Create derived labels/selectors in `src/lib/content.ts`: función de etiqueta de estado (`'in-progress'` → "En desarrollo", `'completed'` → "Finalizado") y de repositorio (`'private'` → "Repositorio privado", público con `url` → enlace, público sin `url` → pendiente), sin duplicar esos textos en `portfolio.ts` (contracts/content-model.contract.md)
+- [x] T007 Create content interfaces in `src/types/content.ts` exactly as defined in contracts/content-model.contract.md: tipos base `Language` (`'es' | 'en'`) y `LocalizedText` (`Record<Language, string>`); `PortfolioContent`, `Profile` (con campos localizados), `SpokenLanguage` (antes `Language`), `PhotoRef` (`alt` localizado), `SkillCategory` (`name` localizado), `EducationItem` (campos localizados), `Project` con `repositories: RepositoryRef[]`, `RepositoryRef` con `label` localizado/`visibility`/`url?`, `ProjectStatus`, `RepositoryVisibility`, `ContactLink` (`label`/`value` localizados), `ContactKind`, `CvResource`
+- [x] T008 Populate `src/content/portfolio.ts` with all bilingual content (perfil de Franco, 5 categorías de habilidades, 2 ítems de formación, 4 proyectos, 3 contactos, recurso CV) satisfying all invariants of data-model.md: `id` único por colección; `repositories` con al menos un elemento por proyecto; `visibility === 'private'` ⇒ sin `url`; repositorio público con `url` ⇒ enlace disponible; repositorio público sin `url` ⇒ estado "pendiente"; `available === false` (LinkedIn, CV) ⇒ sin `url`; `photo.available === false`; PSA con dos repositorios ("Código backend"/"Backend code" y "Código frontend"/"Frontend code") y los de un solo repositorio con "Código fuente"/"Source code"; todo `LocalizedText` con `es` y `en`; dejar un comentario `TODO` con la URL a cargar en los repositorios pendientes (depende de T007)
+- [x] T009 [P] Create derived labels/selectors in `src/lib/content.ts`: función de etiqueta de estado (`'in-progress'` → "En desarrollo"/"In progress", `'completed'` → "Finalizado"/"Completed") y de repositorio (`'private'` → "Repositorio privado"/"Private repository", público con `url` → enlace, público sin `url` → pendiente), tomando los textos de `src/content/ui.ts` y recibiendo el idioma activo, sin duplicar esos textos en `portfolio.ts` (contracts/content-model.contract.md, contracts/language.contract.md)
 - [x] T010 [P] Create theme constants/helpers in `src/lib/theme.ts`: clave `theme` de `localStorage` como constante única, valores permitidos `['light','dark','system']`, y función de resolución de tema efectivo (contracts/theme.contract.md)
 - [x] T011 Configure `src/app/globals.css`: `@import "tailwindcss"`, tokens semánticos de color y `@custom-variant dark (&:where(.dark, .dark *));` (contracts/theme.contract.md)
 - [x] T012 Create `src/app/layout.tsx`: `<html lang="es">`, metadatos (title/description), y script en línea anti-parpadeo en `<head>` que lee `localStorage` + `prefers-color-scheme` y aplica la clase `dark`, validando el valor contra la lista blanca (contracts/theme.contract.md)
@@ -68,9 +68,9 @@ Proyecto único en la raíz del repositorio. Paths: `src/`, `public/`,
 
 **Independent Test**: Abrir la página y verificar que la sección de presentación muestra todos los campos de `profile` y la reserva de foto sin romper el layout (quickstart V1).
 
-- [ ] T015 [P] [US1] Create `src/components/Hero.tsx` (server component) rendering `content.profile`: nombre, título, resumen, ubicación e idiomas con HTML semántico (`<section>`, `<h2>`, lista de idiomas) (FR-002)
-- [ ] T016 [US1] Implement the photo reservation in `src/components/Hero.tsx`: si `profile.photo` falta o `photo.available === false`, mostrar un espacio reservado accesible (sin `<img>` roto); cuando esté disponible, usar `next/image` con `alt` no vacío (FR-003, contract invariante 6)
-- [ ] T017 [US1] Integrate Hero into `src/app/page.tsx` dentro de `<section id="presentacion">` en el orden de secciones del plan
+- [x] T015 [P] [US1] Create `src/components/Hero.tsx` (client) rendering `content.profile` en el idioma activo (`useLanguage()` + `pick`): nombre, título, resumen (párrafos de `summary` separados por `\n\n` como `<p>` independientes), ubicación e idiomas con HTML semántico (`<section>`, `<h2>`, lista de idiomas) (FR-002)
+- [x] T016 [US1] Implement the photo reservation in `src/components/Hero.tsx`: si `profile.photo` falta o `photo.available === false`, mostrar un espacio reservado accesible (sin `<img>` roto); cuando esté disponible, usar `next/image` con `alt` no vacío (FR-003, contract invariante 6)
+- [x] T017 [US1] Integrate Hero into `src/app/page.tsx` dentro de `<section id="presentacion">` en el orden de secciones del plan
 
 **Checkpoint**: US1 funcional y validable de forma independiente (MVP).
 
@@ -82,9 +82,9 @@ Proyecto único en la raíz del repositorio. Paths: `src/`, `public/`,
 
 **Independent Test**: Verificar que los 4 proyectos aparecen con sus datos; los privados/en curso muestran etiquetas, los públicos con enlace disponible muestran sus botones y los pendientes no generan enlaces rotos (quickstart V2).
 
-- [ ] T018 [P] [US2] Create `src/components/ProjectCard.tsx` rendering name, description, `highlights` (lista), `technologies` (lista), etiqueta de estado derivada de `src/lib/content.ts`, y todos los `repositories` del proyecto dentro de la misma tarjeta: repositorio público con `url` ⇒ botón con ícono de GitHub, uno al lado del otro (en columna si no entran en pantallas angostas), etiquetado con `repository.label` ("Código backend", "Código frontend") e indicando a qué repositorio lleva; repositorio privado ⇒ etiqueta "Repositorio privado" en lugar de botón; repositorio público sin `url` (pendiente) ⇒ sin botón ni enlace roto. Los botones MUST ser operables por teclado, con foco visible, contraste suficiente y objetivo táctil ≥ 44 px (FR-007, FR-008, FR-009; contract invariantes 2–5; Principio IV)
-- [ ] T019 [US2] Create `src/components/Projects.tsx` mapping `content.projects` a `ProjectCard` en el orden del arreglo, con `<h2>` de sección (FR-006)
-- [ ] T020 [US2] Integrate Projects into `src/app/page.tsx` dentro de `<section id="proyectos">`
+- [x] T018 [P] [US2] Create `src/components/ProjectCard.tsx` rendering name, description, `highlights` (lista), `technologies` (lista), etiqueta de estado derivada de `src/lib/content.ts`, y todos los `repositories` del proyecto dentro de la misma tarjeta: repositorio público con `url` ⇒ botón con ícono de GitHub, uno al lado del otro (en columna si no entran en pantallas angostas), etiquetado con `repository.label` ("Código backend", "Código frontend") e indicando a qué repositorio lleva; repositorio privado ⇒ etiqueta "Repositorio privado" en lugar de botón; repositorio público sin `url` (pendiente) ⇒ sin botón ni enlace roto. Los botones MUST ser operables por teclado, con foco visible, contraste suficiente y objetivo táctil ≥ 44 px (FR-007, FR-008, FR-009; contract invariantes 2–5; Principio IV)
+- [x] T019 [US2] Create `src/components/Projects.tsx` mapping `content.projects` a `ProjectCard` en el orden del arreglo, con `<h2>` de sección (FR-006)
+- [x] T020 [US2] Integrate Projects into `src/app/page.tsx` dentro de `<section id="proyectos">`
 
 **Checkpoint**: US1 y US2 funcionan de forma independiente.
 
@@ -96,7 +96,7 @@ Proyecto único en la raíz del repositorio. Paths: `src/`, `public/`,
 
 **Independent Test**: Verificar las 5 categorías y sus tecnologías (quickstart V3).
 
-- [ ] T021 [P] [US3] Create `src/components/Skills.tsx` rendering `content.skills` agrupadas por categoría (`name` + lista de `skills`), HTML semántico (FR-004)
+- [ ] T021 [P] [US3] Create `src/components/Skills.tsx` (client) rendering `content.skills` agrupadas por categoría (`name` localizado + lista de `skills`), HTML semántico, resolviendo el idioma activo con `useLanguage()` (FR-004)
 - [ ] T022 [US3] Integrate Skills into `src/app/page.tsx` dentro de `<section id="habilidades">`
 
 **Checkpoint**: US3 funcional de forma independiente.
@@ -109,7 +109,7 @@ Proyecto único en la raíz del repositorio. Paths: `src/`, `public/`,
 
 **Independent Test**: Correo y GitHub funcionan; LinkedIn reservado sin enlace roto (quickstart V4).
 
-- [ ] T023 [P] [US4] Create `src/components/Contact.tsx` rendering `content.contact`: enlaces `mailto:` (04francomartin@gmail.com) y GitHub (MartinAlonso333); si `available === false` (LinkedIn) mostrar espacio reservado sin enlace (FR-010, contract invariante 4)
+- [ ] T023 [P] [US4] Create `src/components/Contact.tsx` (client) rendering `content.contact` con textos localizados (`label`/`value`): enlaces `mailto:` (04francomartin@gmail.com) y GitHub (MartinAlonso333); si `available === false` (LinkedIn) mostrar espacio reservado sin enlace (FR-010, contract invariante 4)
 - [ ] T024 [US4] Integrate Contact into `src/app/page.tsx` dentro de `<section id="contacto">`
 
 **Checkpoint**: US4 funcional de forma independiente.
@@ -122,7 +122,7 @@ Proyecto único en la raíz del repositorio. Paths: `src/`, `public/`,
 
 **Independent Test**: Verificar FIUBA (cursando 4.º año) y curso de JavaScript (quickstart V3).
 
-- [ ] T025 [P] [US5] Create `src/components/Education.tsx` rendering `content.education` (programa, institución, estado, tipo) con HTML semántico (FR-005)
+- [ ] T025 [P] [US5] Create `src/components/Education.tsx` (client) rendering `content.education` (programa, institución, estado y tipo localizados) con HTML semántico (FR-005)
 - [ ] T026 [US5] Integrate Education into `src/app/page.tsx` dentro de `<section id="formacion">`
 
 **Checkpoint**: US5 funcional de forma independiente.
@@ -145,17 +145,34 @@ Proyecto único en la raíz del repositorio. Paths: `src/`, `public/`,
 
 ---
 
-## Phase 9: Polish & Cross-Cutting Concerns
+## Phase 9: User Story 7 - Alternar el idioma de la página (Priority: P2)
+
+**Goal**: Un control en el header alterna toda la página entre español e inglés al instante, actualiza `<html lang>`, persiste la elección y usa español por defecto.
+
+**Independent Test**: Cambiar el idioma con el control, verificar que todo el contenido y la interfaz cambian de inmediato sin recargar, que `<html lang>` se actualiza y que la elección persiste tras recargar; con JS deshabilitado se ve español (quickstart V8).
+
+- [x] T032 [P] [US7] Create `src/lib/i18n.ts`: constantes `DEFAULT_LANGUAGE = 'es'`, `LANGUAGES`, `LANGUAGE_STORAGE_KEY = 'lang'` y helpers `isLanguage` (type guard) y `pick(text, language)` (contracts/language.contract.md)
+- [x] T033 [P] [US7] Create `src/content/ui.ts`: diccionario de textos de interfaz bilingüe (`LocalizedText`) — navegación, títulos de sección, etiquetas de estado de proyecto y de repositorio privado, etiquetas de tipo de formación, textos de reserva (foto), metadatos (title/description) y `aria-label` del control de idioma (contracts/language.contract.md, Principio VI)
+- [x] T034 [US7] Create `src/components/LanguageProvider.tsx` (`'use client'`): contexto `{ language, setLanguage, toggle }` y hook `useLanguage()`; el idioma es un almacén externo leído con `useSyncExternalStore` (snapshot del servidor en `DEFAULT_LANGUAGE` para no diferir del HTML pre-renderizado, valor de `localStorage.lang` validado con `isLanguage` en cliente), escribe `document.documentElement.lang` desde un efecto y persiste el cambio en `localStorage.lang` (FR-017, contracts/language.contract.md; depende de T032)
+- [x] T035 [US7] Create `src/components/LanguageToggle.tsx` (`'use client'`): `<button>` con etiqueta accesible localizada, operable por teclado, foco visible y estado comunicado con texto (no solo color); alterna el idioma vía `useLanguage()` (FR-017, Principio IV; depende de T034)
+- [x] T036 [US7] Wrap `{children}` with `LanguageProvider` in `src/app/layout.tsx`, add `LanguageToggle` to `src/components/Header.tsx`, and make `Header`, `Hero`, `Projects`, `ProjectCard` y `page.tsx` client components que consumen `useLanguage()` y resuelven el texto con `pick` (depende de T034, T035)
+- [x] T037 [US7] Hacer que las etiquetas derivadas de `src/lib/content.ts` reciban el idioma activo (`getProjectStatusLabel(status, language)`, `getPrivateRepositoryLabel(language)`) leyendo de `src/content/ui.ts`; verificar el render bilingüe, el cambio de `<html lang>` y la persistencia (quickstart V8)
+
+**Checkpoint**: El sitio alterna español/inglés al instante y recuerda la elección.
+
+---
+
+## Phase 10: Polish & Cross-Cutting Concerns
 
 **Purpose**: Despliegue, responsive, accesibilidad, performance y documentación.
 
-- [ ] T032 [P] Create `.github/workflows/deploy.yml` (push a la rama principal): checkout, Node 20 LTS con caché npm, `npm ci`, `npm run build`, `actions/upload-pages-artifact` con `path: out`, `actions/deploy-pages`; permisos `contents: read`, `pages: write`, `id-token: write` (contracts/static-export.contract.md)
-- [ ] T033 [P] Update `README.md` with project description, stack, scripts (`dev`/`build`/`lint`/`typecheck`), structure and deployment notes (Restricciones Adicionales de la constitución)
-- [ ] T034 [P] Verify responsive layout and cross-browser rendering of the built site (`out/`, served via `npx serve out`) at 320, 375, 768, 1024, 1440 and 1920 px across all sections in `src/components/`, in Chrome and Firefox on desktop and using the browser devtools mobile emulation; treat Safari, Edge and iOS devices as NOT verified (no access to them), and record that as a known limitation; fix any scroll horizontal, overlap or touch targets < 44 px (FR-012, SC-003, SC-008, quickstart V6)
-- [ ] T035 [P] Verify accessibility of `out/index.html`: keyboard operability, visible focus, contrast ≥ 4.5:1, semantic HTML, image `alt`; run axe DevTools and Lighthouse a11y with no A/AA violations (FR-015, SC-006, quickstart V7)
-- [ ] T036 [P] Verify performance budget on locally served `out/`: total transfer < 500 KB and LCP < 2.5 s on mid-tier mobile; confirm no third-party scripts/fonts and only `ThemeToggle` as client island (SC-009, Principio II)
-- [ ] T037 [P] Validate the static output: `npm run build` succeeds, `out/index.html` exists, `out/` contains no development artifacts, and HTML validates (Flujo de Desarrollo)
-- [ ] T038 Run the full `quickstart.md` validation (V1–V7), remove any dead links/placeholders and ensure no `console.log` or dead code remains (Principio V)
+- [ ] T038 [P] Create `.github/workflows/deploy.yml` (push a la rama principal): checkout, Node 20 LTS con caché npm, `npm ci`, `npm run build`, `actions/upload-pages-artifact` con `path: out`, `actions/deploy-pages`; permisos `contents: read`, `pages: write`, `id-token: write` (contracts/static-export.contract.md)
+- [ ] T039 [P] Update `README.md` with project description, stack, scripts (`dev`/`build`/`lint`/`typecheck`), structure and deployment notes (Restricciones Adicionales de la constitución)
+- [ ] T040 [P] Verify responsive layout and cross-browser rendering of the built site (`out/`, served via `npx serve out`) at 320, 375, 768, 1024, 1440 and 1920 px across all sections in `src/components/`, in Chrome and Firefox on desktop and using the browser devtools mobile emulation; treat Safari, Edge and iOS devices as NOT verified (no access to them), and record that as a known limitation; fix any scroll horizontal, overlap or touch targets < 44 px, en ambos idiomas (FR-012, SC-003, SC-008, quickstart V6)
+- [ ] T041 [P] Verify accessibility of `out/index.html`: keyboard operability, visible focus, contrast ≥ 4.5:1, semantic HTML, image `alt`; run axe DevTools and Lighthouse a11y with no A/AA violations, en ambos idiomas (FR-015, SC-006, quickstart V7)
+- [ ] T042 [P] Verify performance budget on locally served `out/`: total transfer < 500 KB and LCP < 2.5 s on mid-tier mobile; confirm no third-party scripts/fonts and that the only client islands are ThemeToggle, LanguageToggle y LanguageProvider (SC-009, Principio II)
+- [ ] T043 [P] Validate the static output: `npm run build` succeeds, `out/index.html` exists, el HTML pre-renderizado está en español, `out/` contains no development artifacts, and HTML validates (Flujo de Desarrollo)
+- [ ] T044 Run the full `quickstart.md` validation (V1–V8), remove any dead links/placeholders and ensure no `console.log` or dead code remains (Principio V)
 
 ---
 
@@ -176,6 +193,7 @@ Proyecto único en la raíz del repositorio. Paths: `src/`, `public/`,
 - **US4 (P2)**: tras Foundational; sin dependencias.
 - **US5 (P3)**: tras Foundational; sin dependencias.
 - **US6 (P3)**: tras Foundational; T027 modifica `Hero.tsx` (creado en US1), T029/T030 modifican `Header.tsx` (Foundational). Por eso se recomienda ejecutar US6 después de US1.
+- **US7 (P2)**: tras Foundational; T036/T037 modifican `layout.tsx` y `page.tsx` (compartidos) y convierten `Header`/`Hero`/`Projects`/`ProjectCard` en client components. Se recomienda ejecutar US7 después de US1 y US2 (y antes de Polish) para que las verificaciones de Polish cubran el modo bilingüe.
 
 ### Within Each User Story
 
@@ -184,9 +202,12 @@ Proyecto único en la raíz del repositorio. Paths: `src/`, `public/`,
 
 ### Nota sobre archivos compartidos
 
-`src/app/page.tsx` (T014, T017, T020, T022, T024, T026), `src/components/Hero.tsx`
-(T015, T016, T027) y `src/components/Header.tsx` (T013, T029) son archivos compartidos:
-las tareas que los tocan NO deben ejecutarse en paralelo entre sí.
+`src/app/page.tsx` (T014, T017, T020, T022, T024, T026, T036), `src/components/Hero.tsx`
+(T015, T016, T027, T036), `src/components/Header.tsx` (T013, T029, T036) y
+`src/app/layout.tsx` (T012, T036) son archivos compartidos: las tareas que los tocan NO
+deben ejecutarse en paralelo entre sí. `src/lib/content.ts` (T009, T037) y
+`src/components/{Projects,ProjectCard}.tsx` (T018, T019, T036) también se tocan en US2 y
+US7.
 
 ---
 
@@ -195,7 +216,8 @@ las tareas que los tocan NO deben ejecutarse en paralelo entre sí.
 - Setup: T002, T003, T004, T005, T006 en paralelo (archivos distintos, luego de T001).
 - Foundational: T009 y T010 en paralelo; T011/T012 dependen de T003/T010; T013 (Header) tras T011/T012, y T014 (page.tsx) tras T013.
 - Historias: los componentes `Hero` (T015), `ProjectCard`/`Projects` (T018), `Skills` (T021), `Contact` (T023), `Education` (T025), `ThemeToggle` (T028) son archivos distintos y pueden desarrollarse en paralelo; sus integraciones en `page.tsx` se serializan.
-- Polish: T032–T037 en paralelo (artefactos y verificaciones independientes).
+- US7: T032 (`i18n.ts`) y T033 (`ui.ts`) en paralelo; T034 tras T032; T035 tras T034; T036 tras T034/T035; T037 tras T036. T036/T037 se serializan con las integraciones de US1–US6 en los archivos compartidos.
+- Polish: T038–T043 en paralelo (artefactos y verificaciones independientes); T044 al final.
 
 ## Parallel Example: componentes de historia
 
@@ -226,14 +248,14 @@ Task: "Create src/components/ThemeToggle.tsx (US6)"
 1. Setup + Foundational → base lista.
 2. US1 → validar → demo (MVP).
 3. US2 → validar → demo (proyectos: valor central para reclutadores).
-4. US3, US4, US5, US6 → validar cada una y desplegar.
-5. Polish (Fase 9): despliegue, responsive, accesibilidad, performance.
+4. US3, US4, US5, US6, US7 → validar cada una y desplegar.
+5. Polish (Fase 10): despliegue, responsive, accesibilidad, performance.
 
 ### Parallel Team Strategy
 
 1. El equipo completa Setup + Foundational.
-2. Luego: Dev A → US1; Dev B → US2; Dev C → US3/US4/US5; un Dev para US6 (tras US1).
-3. Serializar solo las integraciones en `page.tsx`, `Hero.tsx` y `Header.tsx`.
+2. Luego: Dev A → US1; Dev B → US2; Dev C → US3/US4/US5; un Dev para US6 (tras US1) y US7 (tras US1/US2).
+3. Serializar solo las integraciones en `page.tsx`, `Hero.tsx`, `Header.tsx` y `layout.tsx`.
 
 ---
 

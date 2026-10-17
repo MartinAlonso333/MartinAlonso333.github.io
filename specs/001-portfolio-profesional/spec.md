@@ -17,6 +17,9 @@
 - Q: ¿Qué navegadores y dispositivos deben considerarse como soportados para verificar el sitio? → A: Navegadores evergreens actuales (Chrome, Firefox, Safari, Edge) y móviles (Safari iOS, Chrome Android).
 - Q: ¿La especificación debe fijar un objetivo de performance medible para la carga del sitio? → A: Sí, adoptar el presupuesto de la constitución: <500 KB de transferencia total y LCP <2,5 s en móvil de gama media.
 - Q: ¿Cómo se modelan los proyectos con más de un repositorio y los repositorios públicos cuyo enlace todavía no está disponible? → A: Cada proyecto expone una lista de repositorios, cada uno con una etiqueta, visibilidad y enlace opcional; un repositorio público sin URL se muestra como "pendiente" (sin enlace y sin la etiqueta de privado), los privados muestran "Repositorio privado" y los públicos con enlace disponible muestran un botón por repositorio.
+- Q: ¿El sitio debe estar disponible en más de un idioma? → A: Sí, en español e inglés; todo el contenido visible y la interfaz se traducen.
+- Q: ¿Cómo debe funcionar el cambio de idioma? → A: Un control en el header que cambia el idioma al instante, sin recargar ni cambiar la URL; la elección persiste entre visitas y el idioma por defecto es español.
+- Q: ¿El contenido bilingüe se traduce completo? → A: Sí; se traduce todo el contenido (perfil, habilidades, formación, proyectos y contacto), no solo la interfaz. Los nombres propios y las tecnologías se mantienen.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -113,20 +116,38 @@ Un visitante descarga el CV en PDF y, además, consulta el sitio cómodamente de
 
 ---
 
+### User Story 7 - Alternar el idioma de la página (Priority: P2)
+
+Un visitante que prefiere leer en inglés (o un reclutador internacional) puede cambiar el idioma de toda la página entre español e inglés sin recargar, y su elección se recuerda en visitas posteriores.
+
+**Why this priority**: Amplía el alcance del sitio a reclutadores que no leen español, manteniendo el español como idioma por defecto.
+
+**Independent Test**: Se puede probar cambiando el idioma con el control del header y verificando que todo el contenido y la interfaz cambian de inmediato, que el atributo `lang` del documento se actualiza y que la elección persiste tras recargar (quickstart V8).
+
+**Acceptance Scenarios**:
+
+1. **Given** un visitante entra por primera vez, **When** se carga la página, **Then** el contenido se muestra en español.
+2. **Given** un visitante quiere leer en inglés, **When** acciona el control de idioma, **Then** todo el contenido visible y la interfaz pasan a inglés de inmediato y sin recargar, y el atributo `lang` del documento pasa a `en`.
+3. **Given** un visitante ya eligió un idioma, **When** vuelve a visitar el sitio, **Then** se restaura el idioma elegido.
+4. **Given** un visitante tiene JavaScript deshabilitado, **When** carga la página, **Then** ve el contenido en el idioma por defecto (español), visible y legible.
+
+---
+
 ### Edge Cases
 
 - ¿Qué ocurre cuando el contenido está disponible pero la foto de perfil todavía no fue incorporada? Debe mostrarse un espacio reservado neutro que no rompa el diseño.
 - ¿Qué ocurre cuando el enlace de LinkedIn todavía no existe? No debe mostrarse un enlace roto; el espacio queda reservado.
 - ¿Qué ocurre cuando el archivo PDF del CV todavía no está disponible? El botón no debe conducir a una página de error.
-- ¿Qué ocurre cuando un visitante tiene JavaScript deshabilitado? El contenido esencial (presentación, habilidades, formación, proyectos y contacto) debe permanecer visible y legible.
+- ¿Qué ocurre cuando un visitante tiene JavaScript deshabilitado? El contenido esencial (presentación, habilidades, formación, proyectos y contacto) debe permanecer visible y legible; se muestra en el idioma por defecto (español).
 - ¿Qué ocurre con las descripciones largas? El texto debe ajustarse sin desbordar ni solaparse en pantallas de 320 px.
 - ¿Qué ocurre cuando cambia la preferencia de tema del sistema operativo? El sitio debe reflejarla mientras el visitante no haya elegido un tema manualmente.
+- ¿Qué ocurre al cambiar de idioma con un texto largo? El contenido traducido debe ajustarse sin romper el layout ni generar scroll horizontal.
 
 ## Requirements *(mandatory)*
 
 ### Functional Requirements
 
-- **FR-001**: El sitio MUST ser una página única en español, con tono formal, orientada a reclutadores y profesionales que evalúan candidatos para pasantías o primer empleo backend.
+- **FR-001**: El sitio MUST ser una página única, con tono formal, orientada a reclutadores y profesionales que evalúan candidatos para pasantías o primer empleo backend, y MUST estar disponible en español e inglés.
 - **FR-002**: El sitio MUST presentar el nombre completo (Franco Martín Alonso), el título profesional (estudiante de 4.º año de Ingeniería Informática en FIUBA, en busca de pasantía o primer empleo como desarrollador backend), una descripción breve, la ubicación (Buenos Aires, Argentina) y los idiomas (español nativo, inglés intermedio, portugués básico).
 - **FR-003**: La presentación MUST incluir un espacio reservado para la foto de perfil, que se incorporará más adelante, sin que su ausencia rompa el diseño.
 - **FR-004**: El sitio MUST incluir una sección de habilidades agrupadas por categoría: Lenguajes (Java, C++, TypeScript, JavaScript), Backend (Spring Boot 3.x, Spring Data JPA, Hibernate, Spring Security, Maven), Bases de datos (PostgreSQL), Infraestructura y monitoreo (Docker, Spring Boot Actuator) y Frontend (React).
@@ -142,6 +163,7 @@ Un visitante descarga el CV en PDF y, además, consulta el sitio cómodamente de
 - **FR-014**: El contenido MUST poder editarse o ampliarse (por ejemplo, agregar un proyecto o actualizar datos) sin modificar la lógica de presentación.
 - **FR-015**: El sitio MUST cumplir con las pautas de accesibilidad WCAG 2.1 nivel AA.
 - **FR-016**: El sitio MUST incluir una barra de navegación fija (sticky) en la parte superior, con enlaces de ancla a cada sección (presentación, habilidades, formación, proyectos, contacto), operables por teclado, con foco visible y visible durante todo el desplazamiento.
+- **FR-017**: El sitio MUST incluir un control accesible para alternar el idioma de la página entre español e inglés. El cambio MUST aplicarse de inmediato y sin recargar; el idioma por defecto MUST ser español y la elección del visitante MUST persistir entre visitas. Al cambiar de idioma MUST actualizarse el atributo `lang` del documento y todo el contenido visible y la interfaz.
 
 ### Key Entities *(include if feature involves data)*
 
@@ -151,6 +173,7 @@ Un visitante descarga el CV en PDF y, además, consulta el sitio cómodamente de
 - **Formación**: estudio o curso realizado; atributos: nombre, institución, estado (por ejemplo, cursando), tipo.
 - **Proyecto**: trabajo mostrado; atributos: nombre, descripción, puntos clave, tecnologías, estado (en desarrollo / finalizado) y lista de repositorios; cada repositorio tiene etiqueta (por ejemplo, "Código fuente", "Código backend"), visibilidad (público / privado) y enlace a GitHub cuando esté disponible (los públicos sin enlace quedan pendientes).
 - **Medio de contacto**: canal para contactar a Franco; atributos: tipo (correo, GitHub, LinkedIn), valor, disponibilidad (disponible o pendiente).
+- **Texto localizado**: todo texto legible (títulos, descripciones, etiquetas) existe en español y en inglés; la interfaz también se localiza y el contenido no se duplica como bloques separados en la página.
 
 ## Success Criteria *(mandatory)*
 
@@ -165,13 +188,15 @@ Un visitante descarga el CV en PDF y, además, consulta el sitio cómodamente de
 - **SC-007**: Añadir o actualizar un proyecto o dato de contenido no requiere modificar la lógica de presentación.
 - **SC-008**: El sitio se visualiza y opera correctamente en las últimas versiones de Chrome, Firefox, Safari y Edge, tanto en escritorio como en móvil (Safari iOS, Chrome Android).
 - **SC-009**: La carga total de la página se mantiene por debajo de 500 KB de transferencia y el Largest Contentful Paint es inferior a 2,5 s en una conexión móvil de gama media.
+- **SC-010**: Un visitante puede cambiar el idioma de la página en un máximo de 1 acción desde cualquier punto de la página; el cambio es inmediato, actualiza el atributo `lang` del documento y persiste tras recargar.
 
 ## Assumptions
 
 - El sitio es una página única sin backend ni funcionalidades de servidor.
 - La foto de perfil y el enlace de LinkedIn se incorporarán más adelante; hasta entonces se muestran espacios reservados sin enlaces rotos ni fallos de diseño.
 - El archivo PDF del CV se aportará por separado; hasta entonces el botón apunta a una ubicación reservada que no conduce a un error.
-- Todo el contenido visible y la interfaz están en español con tono formal.
+- Todo el contenido visible y la interfaz están disponibles en español e inglés con tono formal; el español es el idioma por defecto.
+- Las traducciones al inglés del contenido del portafolio las mantiene el autor; los nombres propios, las tecnologías y los datos de contacto no se traducen.
 - Los repositorios privados no son accesibles públicamente, por lo que se muestran como etiqueta en lugar de enlace.
 - El sitio se publica en entorno de hosting estático (GitHub Pages), sin código de servidor ni secretos.
 - Se toma como referencia la constitución del proyecto: simplicidad, carga rápida, diseño responsive, accesibilidad, código limpio y contenido desacoplado de la lógica.

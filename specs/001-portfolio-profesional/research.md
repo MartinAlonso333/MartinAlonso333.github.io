@@ -107,15 +107,38 @@ marcadas como NEEDS CLARIFICATION.
   (no hay lógica compleja más allá del tema); Playwright — sobredimensionado para una
   página.
 
-## R9. Idioma, tipografía y assets de terceros
+## R9. Tipografía y assets de terceros
 
-- **Decision**: Contenido e interfaz solo en español (`<html lang="es">`). No cargar
-  fuentes, iconos ni scripts de terceros; usar una pila de fuentes del sistema (system
-  font stack) e iconos SVG en línea.
+- **Decision**: No cargar fuentes, iconos ni scripts de terceros; usar una pila de fuentes
+  del sistema (system font stack) e iconos SVG en línea.
 - **Rationale**: Minimiza peso y solicitudes de red (Principio II), evita dependencias
   externas y respeta la restricción de terceros al mínimo.
 - **Alternatives considered**: Google Fonts / conjunto de iconos por CDN — descartados
   por costo de performance y por el Principio I.
+
+## R10. Contenido bilingüe (español por defecto e inglés) sin librería
+
+- **Decision**: Modelar todo texto legible como `LocalizedText = Record<'es' | 'en',
+  string>` (`src/types/content.ts`) y resolverlo con `pick(text, language)`
+  (`src/lib/i18n.ts`). Guardar los textos de interfaz en `src/content/ui.ts` con la misma
+  forma. Compartir el idioma activo con un `LanguageProvider` (React Context) mínimo en
+  `layout.tsx` y alternarlo con un `LanguageToggle` en el header; persistir en
+  `localStorage.lang` (clave `LANGUAGE_STORAGE_KEY`). Idioma por defecto `es`; el `<html>`
+  se pre-renderiza con `lang="es"` y un `useEffect` restaura la preferencia guardada y
+  actualiza `document.documentElement.lang`.
+- **Rationale**: Cumple FR-001/FR-017 y SC-010 sin añadir una dependencia de i18n
+  (Principio I), mantiene el contenido desacoplado de la lógica (Principio VI) y conserva
+  el HTML estático pre-renderizado en español (visible sin JS). El costo es una isla
+  cliente (provider) y componentes que consumen `useLanguage()`.
+- **Alternatives considered**:
+  - `next-intl` / `react-i18next`: dependencia innecesaria para una página estática con dos
+    idiomas; descartadas (Principio I).
+  - Rutas por idioma (`/es`, `/en`): complica el sitio de una sola página y las anclas;
+    descartadas.
+  - Duplicar el contenido en bloques por idioma y mostrar/ocultar por CSS: descartado por
+    duplicar datos (Principio V/VI) y aumentar el peso.
+- **Limitación aceptada**: un visitante con preferencia `en` puede ver un destello breve en
+  español hasta hidratar; no se agrega script anti-parpadeo de idioma (Principio I).
 
 ## Resolved Unknowns
 
@@ -129,3 +152,4 @@ marcadas como NEEDS CLARIFICATION.
 | Despliegue | GitHub Actions → Pages, solo `out/`, sin basePath (R7) |
 | Verificación | tsc + ESLint + build + Lighthouse + axe + manual (R8) |
 | Terceros | Sin fuentes/iconos/scripts externos; system fonts + SVG (R9) |
+| Bilingüe sin librería | `LocalizedText` + `i18n.ts` + `LanguageProvider` + `ui.ts` (R10) |

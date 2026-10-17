@@ -1,46 +1,53 @@
+export type Language = "es" | "en";
+
+export type LocalizedText = Record<Language, string>;
+
 export type ProjectStatus = "in-progress" | "completed";
 
 export type RepositoryVisibility = "public" | "private";
 
 export type ContactKind = "email" | "github" | "linkedin";
 
-export interface Language {
-  name: string;
-  level: string;
+export interface SpokenLanguage {
+  name: LocalizedText;
+  level: LocalizedText;
 }
 
 export interface PhotoRef {
   src: string;
-  alt: string;
+  alt: LocalizedText;
   available: boolean;
 }
 
 export interface Profile {
+  /** Nombre propio: no se traduce. */
   fullName: string;
-  professionalTitle: string;
-  summary: string;
-  location: string;
-  languages: Language[];
+  professionalTitle: LocalizedText;
+  /** Párrafos separados por una línea en blanco ("\n\n"); se renderizan como <p> independientes. */
+  summary: LocalizedText;
+  location: LocalizedText;
+  languages: SpokenLanguage[];
   photo?: PhotoRef;
 }
 
 export interface SkillCategory {
   id: string;
-  name: string;
+  name: LocalizedText;
+  /** Nombres propios de tecnologías: no se traducen. */
   skills: string[];
 }
 
 export interface EducationItem {
   id: string;
-  program: string;
-  institution: string;
-  status: string;
+  program: LocalizedText;
+  institution: LocalizedText;
+  status: LocalizedText;
   type: "grado" | "curso";
 }
 
 export interface RepositoryRef {
   /** Etiqueta legible del repositorio, p. ej. "Código fuente", "Código backend". */
-  label: string;
+  label: LocalizedText;
   visibility: RepositoryVisibility;
   /** Presente solo cuando el enlace está disponible. Su ausencia en un repositorio público indica estado "pendiente". */
   url?: string;
@@ -48,9 +55,10 @@ export interface RepositoryRef {
 
 export interface Project {
   id: string;
-  name: string;
-  description: string;
-  highlights: string[];
+  name: LocalizedText;
+  description: LocalizedText;
+  highlights: LocalizedText[];
+  /** Nombres propios de tecnologías: no se traducen. */
   technologies: string[];
   status: ProjectStatus;
   repositories: RepositoryRef[];
@@ -58,8 +66,8 @@ export interface Project {
 
 export interface ContactLink {
   kind: ContactKind;
-  label: string;
-  value: string;
+  label: LocalizedText;
+  value: LocalizedText;
   url?: string;
   available: boolean;
 }

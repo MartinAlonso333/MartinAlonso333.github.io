@@ -82,6 +82,17 @@ npm run lint             # ESLint sin errores
 - Navegación completa por teclado con foco visible.
 - `axe DevTools` sin violaciones A/AA; contraste ≥ 4.5:1.
 - HTML semántico; imágenes con `alt` correcto.
+- Repetir en ambos idiomas (el control de idioma es operable por teclado y tiene foco
+  visible).
+
+### V8 — Idioma (US7, FR-001/FR-017, SC-010, `language.contract.md`)
+- Al cargar por primera vez, el contenido se muestra en español y `<html lang="es">`.
+- Al accionar el control de idioma, todo el contenido y la interfaz pasan a inglés de
+  inmediato, sin recargar ni cambiar la URL, y `<html lang>` pasa a `en`.
+- Tras recargar, se restaura el idioma elegido.
+- Con JavaScript deshabilitado, el HTML pre-renderizado se ve en español.
+- Los textos derivados ("En desarrollo"/"In progress", "Repositorio privado"/"Private
+  repository") cambian con el idioma.
 
 ## Validaciones con herramientas
 
@@ -104,5 +115,5 @@ AA (SC-006), HTML válido (Flujo de Desarrollo).
 ## Criterios de aceptación global
 
 - `npm run build` sin errores y `out/` correcto.
-- V1–V7 aprobadas.
+- V1–V8 aprobadas.
 - Presupuesto de performance respetado.
