@@ -54,8 +54,8 @@ Proyecto único en la raíz del repositorio. Paths: `src/`, `public/`,
 - [x] T009 [P] Create derived labels/selectors in `src/lib/content.ts`: función de etiqueta de estado (`'in-progress'` → "En desarrollo"/"In progress", `'completed'` → "Finalizado"/"Completed") y de repositorio (`'private'` → "Repositorio privado"/"Private repository", público con `url` → enlace, público sin `url` → pendiente), tomando los textos de `src/content/ui.ts` y recibiendo el idioma activo, sin duplicar esos textos en `portfolio.ts` (contracts/content-model.contract.md, contracts/language.contract.md)
 - [x] T010 [P] Create theme constants/helpers in `src/lib/theme.ts`: clave `theme` de `localStorage` como constante única, valores permitidos `['light','dark','system']`, y función de resolución de tema efectivo (contracts/theme.contract.md)
 - [x] T011 Configure `src/app/globals.css`: `@import "tailwindcss"`, tokens semánticos de color y `@custom-variant dark (&:where(.dark, .dark *));` (contracts/theme.contract.md)
-- [x] T012 Create `src/app/layout.tsx`: `<html lang="es">`, metadatos (title/description), y script en línea anti-parpadeo en `<head>` que lee `localStorage` + `prefers-color-scheme` y aplica la clase `dark`, validando el valor contra la lista blanca (contracts/theme.contract.md)
-- [x] T013 Create `src/components/Header.tsx` con navegación fija (sticky) por anclas a `#presentacion`, `#habilidades`, `#formacion`, `#proyectos`, `#contacto`, operable por teclado con foco visible, HTML semántico (`<header>`, `<nav>`), con marca y espacio para el conmutador de tema (FR-016)
+- [x] T012 Create `src/app/layout.tsx`: `<html lang={DEFAULT_LANGUAGE}>` (por defecto `en`), metadatos (title/description), y script en línea anti-parpadeo en `<head>` que lee `localStorage` + `prefers-color-scheme` y aplica la clase `dark`, validando el valor contra la lista blanca (contracts/theme.contract.md)
+- [x] T013 Create `src/components/Header.tsx` con navegación fija (sticky) por anclas a `#about`, `#skills`, `#education`, `#projects`, `#contact`, operable por teclado con foco visible, HTML semántico (`<header>`, `<nav>`), con marca y espacio para el conmutador de tema (FR-016)
 - [x] T014 Create `src/app/page.tsx` como composición de secciones, renderizando `Header` y un `<main>` preparado para las secciones (placeholders por historia) (depende de T013)
 
 **Checkpoint**: Contrato de contenido, tema base y layout listos; las historias pueden comenzar.
@@ -70,7 +70,7 @@ Proyecto único en la raíz del repositorio. Paths: `src/`, `public/`,
 
 - [x] T015 [P] [US1] Create `src/components/Hero.tsx` (client) rendering `content.profile` en el idioma activo (`useLanguage()` + `pick`): nombre, título, resumen (párrafos de `summary` separados por `\n\n` como `<p>` independientes), ubicación e idiomas con HTML semántico (`<section>`, `<h2>`, lista de idiomas) (FR-002)
 - [x] T016 [US1] Implement the photo reservation in `src/components/Hero.tsx`: si `profile.photo` falta o `photo.available === false`, mostrar un espacio reservado accesible (sin `<img>` roto); cuando esté disponible, usar `next/image` con `alt` no vacío (FR-003, contract invariante 6)
-- [x] T017 [US1] Integrate Hero into `src/app/page.tsx` dentro de `<section id="presentacion">` en el orden de secciones del plan
+- [x] T017 [US1] Integrate Hero into `src/app/page.tsx` dentro de `<section id="about">` en el orden de secciones del plan
 
 **Checkpoint**: US1 funcional y validable de forma independiente (MVP).
 
@@ -84,7 +84,7 @@ Proyecto único en la raíz del repositorio. Paths: `src/`, `public/`,
 
 - [x] T018 [P] [US2] Create `src/components/ProjectCard.tsx` rendering name, description, `highlights` (lista), `technologies` (lista), etiqueta de estado derivada de `src/lib/content.ts`, y todos los `repositories` del proyecto dentro de la misma tarjeta: repositorio público con `url` ⇒ botón con ícono de GitHub, uno al lado del otro (en columna si no entran en pantallas angostas), etiquetado con `repository.label` ("Código backend", "Código frontend") e indicando a qué repositorio lleva; repositorio privado ⇒ etiqueta "Repositorio privado" en lugar de botón; repositorio público sin `url` (pendiente) ⇒ sin botón ni enlace roto. Los botones MUST ser operables por teclado, con foco visible, contraste suficiente y objetivo táctil ≥ 44 px (FR-007, FR-008, FR-009; contract invariantes 2–5; Principio IV)
 - [x] T019 [US2] Create `src/components/Projects.tsx` mapping `content.projects` a `ProjectCard` en el orden del arreglo, con `<h2>` de sección (FR-006)
-- [x] T020 [US2] Integrate Projects into `src/app/page.tsx` dentro de `<section id="proyectos">`
+- [x] T020 [US2] Integrate Projects into `src/app/page.tsx` dentro de `<section id="projects">`
 
 **Checkpoint**: US1 y US2 funcionan de forma independiente.
 
@@ -97,7 +97,7 @@ Proyecto único en la raíz del repositorio. Paths: `src/`, `public/`,
 **Independent Test**: Verificar las 5 categorías y sus tecnologías (quickstart V3).
 
 - [ ] T021 [P] [US3] Create `src/components/Skills.tsx` (client) rendering `content.skills` agrupadas por categoría (`name` localizado + lista de `skills`), HTML semántico, resolviendo el idioma activo con `useLanguage()` (FR-004)
-- [ ] T022 [US3] Integrate Skills into `src/app/page.tsx` dentro de `<section id="habilidades">`
+- [ ] T022 [US3] Integrate Skills into `src/app/page.tsx` dentro de `<section id="skills">`
 
 **Checkpoint**: US3 funcional de forma independiente.
 
@@ -110,7 +110,7 @@ Proyecto único en la raíz del repositorio. Paths: `src/`, `public/`,
 **Independent Test**: Correo y GitHub funcionan; LinkedIn reservado sin enlace roto (quickstart V4).
 
 - [ ] T023 [P] [US4] Create `src/components/Contact.tsx` (client) rendering `content.contact` con textos localizados (`label`/`value`): enlaces `mailto:` (04francomartin@gmail.com) y GitHub (MartinAlonso333); si `available === false` (LinkedIn) mostrar espacio reservado sin enlace (FR-010, contract invariante 4)
-- [ ] T024 [US4] Integrate Contact into `src/app/page.tsx` dentro de `<section id="contacto">`
+- [ ] T024 [US4] Integrate Contact into `src/app/page.tsx` dentro de `<section id="contact">`
 
 **Checkpoint**: US4 funcional de forma independiente.
 
@@ -123,7 +123,7 @@ Proyecto único en la raíz del repositorio. Paths: `src/`, `public/`,
 **Independent Test**: Verificar FIUBA (cursando 4.º año) y curso de JavaScript (quickstart V3).
 
 - [ ] T025 [P] [US5] Create `src/components/Education.tsx` (client) rendering `content.education` (programa, institución, estado y tipo localizados) con HTML semántico (FR-005)
-- [ ] T026 [US5] Integrate Education into `src/app/page.tsx` dentro de `<section id="formacion">`
+- [ ] T026 [US5] Integrate Education into `src/app/page.tsx` dentro de `<section id="education">`
 
 **Checkpoint**: US5 funcional de forma independiente.
 
@@ -136,9 +136,9 @@ Proyecto único en la raíz del repositorio. Paths: `src/`, `public/`,
 **Independent Test**: El botón de CV no lleva a error; alternar tema funciona, persiste y no parpadea (quickstart V5/V4).
 
 - [ ] T027 [US6] Add the CV download button to `src/components/Hero.tsx` using `content.cv`: si `cv.available === false`, el botón no conduce a error ni a enlace roto (atributo deshabilitado o `href` a ancla de reserva); si está disponible, enlaza a `cv.url` (FR-011, contract invariante 5)
-- [ ] T028 [P] [US6] Create `src/components/ThemeToggle.tsx` como client component (`'use client'`): `<button>` con etiqueta accesible que describa la acción, ícono SVG con `aria-hidden="true"`, operable por teclado, foco visible (contracts/theme.contract.md, Principio IV)
-- [ ] T029 [US6] Integrate ThemeToggle into `src/components/Header.tsx`
-- [ ] T030 [US6] Implement theme behavior in `src/components/ThemeToggle.tsx` + `src/lib/theme.ts`: alternar claro/oscuro, escribir `localStorage.theme`, restaurar al cargar, y escuchar cambios de `prefers-color-scheme` solo cuando la preferencia sea `'system'`; evitar hydration mismatch leyendo estado tras montar (FR-013, SC-005, contracts/theme.contract.md)
+- [x] T028 [P] [US6] Create `src/components/ThemeToggle.tsx` como client component (`'use client'`): `<button>` con etiqueta accesible que describa la acción, ícono SVG con `aria-hidden="true"`, operable por teclado, foco visible (contracts/theme.contract.md, Principio IV)
+- [x] T029 [US6] Integrate ThemeToggle into `src/components/Header.tsx`
+- [x] T030 [US6] Implement theme behavior in `src/components/ThemeToggle.tsx` + `src/lib/theme.ts`: alternar claro/oscuro, escribir `localStorage.theme`, restaurar al cargar, y escuchar cambios de `prefers-color-scheme` solo cuando la preferencia sea `'system'`; evitar hydration mismatch leyendo estado tras montar (FR-013, SC-005, contracts/theme.contract.md)
 - [ ] T031 [P] [US6] Add static assets placeholders in `public/`: `favicon.ico` y carpeta lista para `foto.jpg` y `cv.pdf` (los archivos reales se agregan luego como cambio de contenido; sin enlaces rotos mientras falten)
 
 **Checkpoint**: Todas las historias funcionan de forma independiente.
@@ -147,9 +147,9 @@ Proyecto único en la raíz del repositorio. Paths: `src/`, `public/`,
 
 ## Phase 9: User Story 7 - Alternar el idioma de la página (Priority: P2)
 
-**Goal**: Un control en el header alterna toda la página entre español e inglés al instante, actualiza `<html lang>`, persiste la elección y usa español por defecto.
+**Goal**: Un control en el header alterna toda la página entre inglés y español al instante, actualiza `<html lang>`, persiste la elección y usa inglés por defecto.
 
-**Independent Test**: Cambiar el idioma con el control, verificar que todo el contenido y la interfaz cambian de inmediato sin recargar, que `<html lang>` se actualiza y que la elección persiste tras recargar; con JS deshabilitado se ve español (quickstart V8).
+**Independent Test**: Cambiar el idioma con el control, verificar que todo el contenido y la interfaz cambian de inmediato sin recargar, que `<html lang>` se actualiza y que la elección persiste tras recargar; con JS deshabilitado se ve inglés (quickstart V8).
 
 - [x] T032 [P] [US7] Create `src/lib/i18n.ts`: constantes `DEFAULT_LANGUAGE = 'es'`, `LANGUAGES`, `LANGUAGE_STORAGE_KEY = 'lang'` y helpers `isLanguage` (type guard) y `pick(text, language)` (contracts/language.contract.md)
 - [x] T033 [P] [US7] Create `src/content/ui.ts`: diccionario de textos de interfaz bilingüe (`LocalizedText`) — navegación, títulos de sección, etiquetas de estado de proyecto y de repositorio privado, etiquetas de tipo de formación, textos de reserva (foto), metadatos (title/description) y `aria-label` del control de idioma (contracts/language.contract.md, Principio VI)
@@ -171,7 +171,7 @@ Proyecto único en la raíz del repositorio. Paths: `src/`, `public/`,
 - [ ] T040 [P] Verify responsive layout and cross-browser rendering of the built site (`out/`, served via `npx serve out`) at 320, 375, 768, 1024, 1440 and 1920 px across all sections in `src/components/`, in Chrome and Firefox on desktop and using the browser devtools mobile emulation; treat Safari, Edge and iOS devices as NOT verified (no access to them), and record that as a known limitation; fix any scroll horizontal, overlap or touch targets < 44 px, en ambos idiomas (FR-012, SC-003, SC-008, quickstart V6)
 - [ ] T041 [P] Verify accessibility of `out/index.html`: keyboard operability, visible focus, contrast ≥ 4.5:1, semantic HTML, image `alt`; run axe DevTools and Lighthouse a11y with no A/AA violations, en ambos idiomas (FR-015, SC-006, quickstart V7)
 - [ ] T042 [P] Verify performance budget on locally served `out/`: total transfer < 500 KB and LCP < 2.5 s on mid-tier mobile; confirm no third-party scripts/fonts and that the only client islands are ThemeToggle, LanguageToggle y LanguageProvider (SC-009, Principio II)
-- [ ] T043 [P] Validate the static output: `npm run build` succeeds, `out/index.html` exists, el HTML pre-renderizado está en español, `out/` contains no development artifacts, and HTML validates (Flujo de Desarrollo)
+- [ ] T043 [P] Validate the static output: `npm run build` succeeds, `out/index.html` exists, el HTML pre-renderizado está en inglés (`lang="en"`), `out/` contains no development artifacts, and HTML validates (Flujo de Desarrollo)
 - [ ] T044 Run the full `quickstart.md` validation (V1–V8), remove any dead links/placeholders and ensure no `console.log` or dead code remains (Principio V)
 
 ---

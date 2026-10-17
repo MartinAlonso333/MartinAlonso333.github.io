@@ -2,7 +2,7 @@ import type { Language, LocalizedText } from "@/types/content";
 
 export type { Language, LocalizedText } from "@/types/content";
 
-export const DEFAULT_LANGUAGE: Language = "es";
+export const DEFAULT_LANGUAGE: Language = "en";
 
 export const LANGUAGES: readonly Language[] = ["es", "en"];
 

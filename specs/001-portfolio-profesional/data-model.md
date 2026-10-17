@@ -31,7 +31,7 @@ PortfolioContent
 ## Tipos base
 
 ### Language (locale)
-Idioma de la interfaz: `'es' | 'en'`. Por defecto `'es'`.
+Idioma de la interfaz: `'es' | 'en'`. Por defecto `'en'` (inglés).
 
 ### LocalizedText
 Texto disponible en ambos idiomas: `Record<Language, string>` (`{ es; en }`). Se resuelve
@@ -143,7 +143,7 @@ Botón de descarga del CV (FR-011).
     no se escriben en el contenido (Principio V).
 12. Todo `LocalizedText` define ambos idiomas (`es` y `en`); el tipo lo garantiza en
     compilación.
-13. El idioma activo por defecto es `es`; si no hay preferencia guardada, se muestra `es`
+13. El idioma activo por defecto es `en`; si no hay preferencia guardada, se muestra `en`
     (visible incluso sin JavaScript).
 
 ## Estados y transiciones

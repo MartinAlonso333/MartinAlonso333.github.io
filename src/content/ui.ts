@@ -1,11 +1,6 @@
 import type { LocalizedText } from "@/types/content";
 
-export type SectionKey =
-  | "presentacion"
-  | "habilidades"
-  | "formacion"
-  | "proyectos"
-  | "contacto";
+export type SectionKey = "about" | "skills" | "education" | "projects" | "contact";
 
 export interface NavItem {
   href: string;
@@ -42,6 +37,10 @@ export interface UiContent {
     label: LocalizedText;
     target: LocalizedText;
   };
+  themeToggle: {
+    toLight: LocalizedText;
+    toDark: LocalizedText;
+  };
 }
 
 export const ui: UiContent = {
@@ -58,19 +57,19 @@ export const ui: UiContent = {
   nav: {
     ariaLabel: { es: "Secciones del sitio", en: "Site sections" },
     items: [
-      { href: "#presentacion", section: "presentacion" },
-      { href: "#habilidades", section: "habilidades" },
-      { href: "#formacion", section: "formacion" },
-      { href: "#proyectos", section: "proyectos" },
-      { href: "#contacto", section: "contacto" },
+      { href: "#about", section: "about" },
+      { href: "#skills", section: "skills" },
+      { href: "#education", section: "education" },
+      { href: "#projects", section: "projects" },
+      { href: "#contact", section: "contact" },
     ],
   },
   sections: {
-    presentacion: { es: "Presentación", en: "About" },
-    habilidades: { es: "Habilidades", en: "Skills" },
-    formacion: { es: "Formación", en: "Education" },
-    proyectos: { es: "Proyectos", en: "Projects" },
-    contacto: { es: "Contacto", en: "Contact" },
+    about: { es: "Presentación", en: "About" },
+    skills: { es: "Habilidades", en: "Skills" },
+    education: { es: "Formación", en: "Education" },
+    projects: { es: "Proyectos", en: "Projects" },
+    contact: { es: "Contacto", en: "Contact" },
   },
   hero: {
     photoPlaceholder: {
@@ -94,5 +93,9 @@ export const ui: UiContent = {
   languageToggle: {
     label: { es: "Cambiar a inglés", en: "Switch to Spanish" },
     target: { es: "EN", en: "ES" },
+  },
+  themeToggle: {
+    toLight: { es: "Cambiar a modo claro", en: "Switch to light mode" },
+    toDark: { es: "Cambiar a modo oscuro", en: "Switch to dark mode" },
   },
 };

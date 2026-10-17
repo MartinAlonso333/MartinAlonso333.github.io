@@ -116,19 +116,20 @@ marcadas como NEEDS CLARIFICATION.
 - **Alternatives considered**: Google Fonts / conjunto de iconos por CDN — descartados
   por costo de performance y por el Principio I.
 
-## R10. Contenido bilingüe (español por defecto e inglés) sin librería
+## R10. Contenido bilingüe (inglés por defecto y español) sin librería
 
 - **Decision**: Modelar todo texto legible como `LocalizedText = Record<'es' | 'en',
   string>` (`src/types/content.ts`) y resolverlo con `pick(text, language)`
   (`src/lib/i18n.ts`). Guardar los textos de interfaz en `src/content/ui.ts` con la misma
   forma. Compartir el idioma activo con un `LanguageProvider` (React Context) mínimo en
   `layout.tsx` y alternarlo con un `LanguageToggle` en el header; persistir en
-  `localStorage.lang` (clave `LANGUAGE_STORAGE_KEY`). Idioma por defecto `es`; el `<html>`
-  se pre-renderiza con `lang="es"` y un `useEffect` restaura la preferencia guardada y
-  actualiza `document.documentElement.lang`.
+  `localStorage.lang` (clave `LANGUAGE_STORAGE_KEY`). Idioma por defecto `en`; el `<html>`
+  se pre-renderiza con `lang="en"` (vía `getServerSnapshot` en `DEFAULT_LANGUAGE`) y un
+  `useEffect` actualiza `document.documentElement.lang` cuando el visitante cambia de
+  idioma.
 - **Rationale**: Cumple FR-001/FR-017 y SC-010 sin añadir una dependencia de i18n
   (Principio I), mantiene el contenido desacoplado de la lógica (Principio VI) y conserva
-  el HTML estático pre-renderizado en español (visible sin JS). El costo es una isla
+  el HTML estático pre-renderizado en inglés (visible sin JS). El costo es una isla
   cliente (provider) y componentes que consumen `useLanguage()`.
 - **Alternatives considered**:
   - `next-intl` / `react-i18next`: dependencia innecesaria para una página estática con dos
@@ -138,7 +139,7 @@ marcadas como NEEDS CLARIFICATION.
   - Duplicar el contenido en bloques por idioma y mostrar/ocultar por CSS: descartado por
     duplicar datos (Principio V/VI) y aumentar el peso.
 - **Limitación aceptada**: un visitante con preferencia `en` puede ver un destello breve en
-  español hasta hidratar; no se agrega script anti-parpadeo de idioma (Principio I).
+  inglés hasta hidratar; no se agrega script anti-parpadeo de idioma (Principio I).
 
 ## Resolved Unknowns
 

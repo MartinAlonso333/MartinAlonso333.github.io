@@ -24,8 +24,8 @@ Cubre Restricciones Adicionales de la constitución, FR-012, FR-016 y SC-009.
 ## Rutas y anclas (FR-016)
 
 - Única ruta: `/`.
-- Anclas de sección con `id` estables: `presentacion`, `habilidades`, `formacion`,
-  `proyectos`, `contacto`.
+- Anclas de sección con `id` estables en inglés: `about`, `skills`, `education`,
+  `projects`, `contact`.
 - La navegación (`Header`) enlaza a esas anclas con `href="#<id>"`.
 - Los `id` de ancla MUST coincidir con los definidos aquí y con los usados por los
   componentes.

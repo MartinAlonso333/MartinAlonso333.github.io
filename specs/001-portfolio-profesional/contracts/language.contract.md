@@ -9,7 +9,7 @@ Cubre FR-001 (bilingüe), FR-017, FR-014 y SC-010, en conjunto con
 ## Modelo de idioma
 
 - **Idioma (locale)**: `'es' | 'en'`.
-- **Idioma por defecto**: `'es'` (el sitio se pre-renderiza en español; visible sin JS).
+- **Idioma por defecto**: `'en'` (el sitio se pre-renderiza en inglés con `lang="en"`; visible sin JS). El español es una opción manual con el control de idioma.
 - **Clave de almacenamiento**: `lang` en `localStorage`. Debe declararse como constante
   única (`LANGUAGE_STORAGE_KEY`) en `src/lib/i18n.ts`.
 - **Representación en el DOM**: atributo `lang` del elemento `<html>` (`es` / `en`).
@@ -22,7 +22,7 @@ Cubre FR-001 (bilingüe), FR-017, FR-014 y SC-010, en conjunto con
 |---------|------|-------------|
 | `Language` | `'es' \| 'en'` | Tipo de locale (re-exportado de `src/types/content.ts`). |
 | `LocalizedText` | `Record<Language, string>` | Texto en ambos idiomas. |
-| `DEFAULT_LANGUAGE` | `'es'` | Idioma por defecto. |
+| `DEFAULT_LANGUAGE` | `'en'` | Idioma por defecto (inglés). |
 | `LANGUAGES` | `Language[]` | `['es', 'en']`, para validación e iteración. |
 | `LANGUAGE_STORAGE_KEY` | `'lang'` | Clave de persistencia. |
 | `isLanguage(value)` | type guard | Valida contra `LANGUAGES`. |
@@ -32,8 +32,9 @@ Cubre FR-001 (bilingüe), FR-017, FR-014 y SC-010, en conjunto con
 
 - `LanguageProvider` (isla cliente) expone `{ language, setLanguage, toggle }` vía React
   Context y un hook `useLanguage()`. Envuelve a `{children}` en `layout.tsx`.
-- El estado inicial es `DEFAULT_LANGUAGE`; al montar (`useEffect`) se lee
-  `localStorage.lang` (validado con `isLanguage`) para evitar hydration mismatch.
+- El estado inicial es `DEFAULT_LANGUAGE` (`en`) vía `getServerSnapshot`, de modo que el
+  HTML pre-renderizado sale con `lang="en"` y sin hydration mismatch; el valor de
+  `localStorage.lang` (validado con `isLanguage`) se lee en cliente tras hidratar.
 - Al cambiar de idioma MUST actualizarse `document.documentElement.lang` y persistirse en
   `localStorage.lang`. No MUST cambiar la URL.
 - Componentes que muestran texto (Header, Hero, Projects, ProjectCard) son client
@@ -44,10 +45,10 @@ Cubre FR-001 (bilingüe), FR-017, FR-014 y SC-010, en conjunto con
 1. **Cambio inmediato**: accionar `LanguageToggle` alterna el idioma y re-renderiza todo el
    contenido visible sin recargar ni navegar (SC-010).
 2. **Persistencia**: al recargar o volver a visitar, se restaura el idioma guardado.
-3. **Por defecto**: sin preferencia guardada (o con valor inválido) se muestra español,
+3. **Por defecto**: sin preferencia guardada (o con valor inválido) se muestra inglés,
    incluso con JavaScript deshabilitado.
-4. **Sin parpadeo crítico**: el HTML estático se genera en español; un usuario con
-   preferencia `en` puede ver un destello breve antes de hidratar. No se agrega script
+4. **Sin parpadeo crítico**: el HTML estático se genera en inglés; un usuario con
+   preferencia `es` puede ver un destello breve antes de hidratar. No se agrega script
    anti-parpadeo para el idioma (limitación aceptada, Principio I).
 5. **Sin dependencias**: no se permite una librería de i18n externa (Principio I).
 
@@ -66,5 +67,5 @@ Cubre FR-001 (bilingüe), FR-017, FR-014 y SC-010, en conjunto con
 - Al pulsar `LanguageToggle`, todo el contenido y la interfaz cambian de inmediato y
   `<html lang>` pasa a `en` (o `es`) (FR-017, SC-010).
 - Tras cambiar y recargar, el idioma elegido persiste.
-- Con JS deshabilitado, el contenido se ve en español.
+- Con JS deshabilitado, el contenido se ve en inglés (`lang="en"`).
 - No hay texto de interfaz hardcodeado en los componentes (todo proviene de `ui.ts`).

@@ -2,6 +2,7 @@
 
 import { LanguageToggle } from "@/components/LanguageToggle";
 import { useLanguage } from "@/components/LanguageProvider";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { ui } from "@/content/ui";
 import { pick } from "@/lib/i18n";
 
@@ -15,8 +16,8 @@ export function Header() {
         className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-x-6 gap-y-2 px-4 py-3"
       >
         <a
-          href="#presentacion"
-          className="rounded font-semibold text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+          href="#about"
+          className="rounded font-semibold text-foreground transition-colors hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
         >
           Franco Martín Alonso
         </a>
@@ -26,7 +27,7 @@ export function Header() {
               <li key={item.href}>
                 <a
                   href={item.href}
-                  className="rounded text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                  className="rounded text-sm text-muted-foreground transition-colors hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
                 >
                   {pick(ui.sections[item.section], language)}
                 </a>
@@ -34,6 +35,7 @@ export function Header() {
             ))}
           </ul>
           <LanguageToggle />
+          <ThemeToggle />
         </div>
       </nav>
     </header>

@@ -3,23 +3,27 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --background: #fafaf9;
-  --foreground: #1c1917;
+  --background: #fafafa;
+  --foreground: #18181b;
   --muted: #ffffff;
-  --muted-foreground: #57534e;
-  --border: #e7e5e4;
-  --accent: #0f766e;
+  --muted-foreground: #52525b;
+  --border: #e4e4e7;
+  --accent: #6d28d9;
   --accent-foreground: #ffffff;
+  --badge: #ede9fe;
+  --badge-foreground: #5b21b6;
 }
 
 .dark {
-  --background: #0f1115;
-  --foreground: #e8eaed;
-  --muted: #171a21;
-  --muted-foreground: #9aa3af;
-  --border: #2a2f3a;
-  --accent: #2dd4bf;
-  --accent-foreground: #042f2e;
+  --background: #1a1726;
+  --foreground: #edebf5;
+  --muted: #242035;
+  --muted-foreground: #a9a3bf;
+  --border: #3a3452;
+  --accent: #a78bfa;
+  --accent-foreground: #1a1726;
+  --badge: #3b2f6b;
+  --badge-foreground: #ddd6fe;
 }
 
 @theme inline {
@@ -30,6 +34,25 @@
   --color-border: var(--border);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-badge: var(--badge);
+  --color-badge-foreground: var(--badge-foreground);
+}
+
+@layer components {
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .section-title::before {
+    content: "";
+    flex: none;
+    width: 2.5rem;
+    height: 0.25rem;
+    border-radius: 9999px;
+    background-color: var(--color-accent);
+  }
 }
 
 html {

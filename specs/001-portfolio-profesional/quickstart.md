@@ -32,6 +32,7 @@ npx serve out            # sirve la salida estática para validar como en produc
 Comprobación rápida de la salida:
 
 - Existe `out/index.html`.
+- El HTML pre-renderizado está en el idioma por defecto: `<html lang="en">`.
 - No hay artefactos de desarrollo en `out/` (`node_modules`, `.next`, fuentes).
 
 ## Checks automáticos
@@ -49,10 +50,10 @@ npm run lint             # ESLint sin errores
 
 ### V2 — Proyectos (US2, FR-006–FR-009)
 - Aparecen los 4 proyectos con descripción, puntos clave y tecnologías.
-- Al Toque y el simulador de granja muestran "En desarrollo" y "Repositorio privado"
-  sin enlace.
-- PSA mostrará dos botones ("Código backend" y "Código frontend") en la misma tarjeta
-  cuando sus enlaces estén cargados.
+- Al Toque y el simulador de granja muestran "In progress" y "Private repository"
+  (al cambiar a español: "En desarrollo" y "Repositorio privado") sin enlace.
+- PSA mostrará dos botones ("Backend code" y "Frontend code"; en español, "Código
+  backend" y "Código frontend") en la misma tarjeta cuando sus enlaces estén cargados.
 - Los repositorios públicos con enlace disponible muestran su botón etiquetado; los
   públicos sin enlace (pendientes) no muestran botón ni enlace roto ni la etiqueta de
   privado.
@@ -86,13 +87,13 @@ npm run lint             # ESLint sin errores
   visible).
 
 ### V8 — Idioma (US7, FR-001/FR-017, SC-010, `language.contract.md`)
-- Al cargar por primera vez, el contenido se muestra en español y `<html lang="es">`.
-- Al accionar el control de idioma, todo el contenido y la interfaz pasan a inglés de
-  inmediato, sin recargar ni cambiar la URL, y `<html lang>` pasa a `en`.
+- Al cargar por primera vez, el contenido se muestra en inglés y `<html lang="en">`.
+- Al accionar el control de idioma, todo el contenido y la interfaz pasan a español de
+  inmediato, sin recargar ni cambiar la URL, y `<html lang>` pasa a `es`.
 - Tras recargar, se restaura el idioma elegido.
-- Con JavaScript deshabilitado, el HTML pre-renderizado se ve en español.
-- Los textos derivados ("En desarrollo"/"In progress", "Repositorio privado"/"Private
-  repository") cambian con el idioma.
+- Con JavaScript deshabilitado, el HTML pre-renderizado se ve en inglés.
+- Los textos derivados ("In progress"/"En desarrollo", "Private repository"/"Repositorio
+  privado") cambian con el idioma.
 
 ## Validaciones con herramientas
 

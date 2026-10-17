@@ -18,8 +18,9 @@
 - Q: ¿La especificación debe fijar un objetivo de performance medible para la carga del sitio? → A: Sí, adoptar el presupuesto de la constitución: <500 KB de transferencia total y LCP <2,5 s en móvil de gama media.
 - Q: ¿Cómo se modelan los proyectos con más de un repositorio y los repositorios públicos cuyo enlace todavía no está disponible? → A: Cada proyecto expone una lista de repositorios, cada uno con una etiqueta, visibilidad y enlace opcional; un repositorio público sin URL se muestra como "pendiente" (sin enlace y sin la etiqueta de privado), los privados muestran "Repositorio privado" y los públicos con enlace disponible muestran un botón por repositorio.
 - Q: ¿El sitio debe estar disponible en más de un idioma? → A: Sí, en español e inglés; todo el contenido visible y la interfaz se traducen.
-- Q: ¿Cómo debe funcionar el cambio de idioma? → A: Un control en el header que cambia el idioma al instante, sin recargar ni cambiar la URL; la elección persiste entre visitas y el idioma por defecto es español.
+- Q: ¿Cómo debe funcionar el cambio de idioma? → A: Un control en el header que cambia el idioma al instante, sin recargar ni cambiar la URL; el idioma por defecto es inglés y la elección del visitante persiste entre visitas.
 - Q: ¿El contenido bilingüe se traduce completo? → A: Sí; se traduce todo el contenido (perfil, habilidades, formación, proyectos y contacto), no solo la interfaz. Los nombres propios y las tecnologías se mantienen.
+- Q: ¿Se revisa el idioma por defecto acordado? → A: Sí. El sitio debe cargar en inglés, tanto en el HTML pre-renderizado (`lang="en"`) como en el estado inicial del proveedor de idioma. El español queda como opción manual con el control de idioma y la elección del visitante sigue persistiendo entre visitas.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -120,16 +121,16 @@ Un visitante descarga el CV en PDF y, además, consulta el sitio cómodamente de
 
 Un visitante que prefiere leer en inglés (o un reclutador internacional) puede cambiar el idioma de toda la página entre español e inglés sin recargar, y su elección se recuerda en visitas posteriores.
 
-**Why this priority**: Amplía el alcance del sitio a reclutadores que no leen español, manteniendo el español como idioma por defecto.
+**Why this priority**: El sitio llega a un público internacional en su idioma por defecto (inglés) y le permite a quien prefiere español cambiarlo de inmediato; amplía el alcance más allá de un solo idioma.
 
 **Independent Test**: Se puede probar cambiando el idioma con el control del header y verificando que todo el contenido y la interfaz cambian de inmediato, que el atributo `lang` del documento se actualiza y que la elección persiste tras recargar (quickstart V8).
 
 **Acceptance Scenarios**:
 
-1. **Given** un visitante entra por primera vez, **When** se carga la página, **Then** el contenido se muestra en español.
-2. **Given** un visitante quiere leer en inglés, **When** acciona el control de idioma, **Then** todo el contenido visible y la interfaz pasan a inglés de inmediato y sin recargar, y el atributo `lang` del documento pasa a `en`.
+1. **Given** un visitante entra por primera vez, **When** se carga la página, **Then** el contenido se muestra en inglés y el atributo `lang` del documento es `en`.
+2. **Given** un visitante quiere leer en español, **When** acciona el control de idioma, **Then** todo el contenido visible y la interfaz pasan a español de inmediato y sin recargar, y el atributo `lang` del documento pasa a `es`.
 3. **Given** un visitante ya eligió un idioma, **When** vuelve a visitar el sitio, **Then** se restaura el idioma elegido.
-4. **Given** un visitante tiene JavaScript deshabilitado, **When** carga la página, **Then** ve el contenido en el idioma por defecto (español), visible y legible.
+4. **Given** un visitante tiene JavaScript deshabilitado, **When** carga la página, **Then** ve el contenido en el idioma por defecto (inglés), visible y legible.
 
 ---
 
@@ -138,7 +139,7 @@ Un visitante que prefiere leer en inglés (o un reclutador internacional) puede 
 - ¿Qué ocurre cuando el contenido está disponible pero la foto de perfil todavía no fue incorporada? Debe mostrarse un espacio reservado neutro que no rompa el diseño.
 - ¿Qué ocurre cuando el enlace de LinkedIn todavía no existe? No debe mostrarse un enlace roto; el espacio queda reservado.
 - ¿Qué ocurre cuando el archivo PDF del CV todavía no está disponible? El botón no debe conducir a una página de error.
-- ¿Qué ocurre cuando un visitante tiene JavaScript deshabilitado? El contenido esencial (presentación, habilidades, formación, proyectos y contacto) debe permanecer visible y legible; se muestra en el idioma por defecto (español).
+- ¿Qué ocurre cuando un visitante tiene JavaScript deshabilitado? El contenido esencial (presentación, habilidades, formación, proyectos y contacto) debe permanecer visible y legible; se muestra en el idioma por defecto (inglés).
 - ¿Qué ocurre con las descripciones largas? El texto debe ajustarse sin desbordar ni solaparse en pantallas de 320 px.
 - ¿Qué ocurre cuando cambia la preferencia de tema del sistema operativo? El sitio debe reflejarla mientras el visitante no haya elegido un tema manualmente.
 - ¿Qué ocurre al cambiar de idioma con un texto largo? El contenido traducido debe ajustarse sin romper el layout ni generar scroll horizontal.
@@ -163,7 +164,7 @@ Un visitante que prefiere leer en inglés (o un reclutador internacional) puede 
 - **FR-014**: El contenido MUST poder editarse o ampliarse (por ejemplo, agregar un proyecto o actualizar datos) sin modificar la lógica de presentación.
 - **FR-015**: El sitio MUST cumplir con las pautas de accesibilidad WCAG 2.1 nivel AA.
 - **FR-016**: El sitio MUST incluir una barra de navegación fija (sticky) en la parte superior, con enlaces de ancla a cada sección (presentación, habilidades, formación, proyectos, contacto), operables por teclado, con foco visible y visible durante todo el desplazamiento.
-- **FR-017**: El sitio MUST incluir un control accesible para alternar el idioma de la página entre español e inglés. El cambio MUST aplicarse de inmediato y sin recargar; el idioma por defecto MUST ser español y la elección del visitante MUST persistir entre visitas. Al cambiar de idioma MUST actualizarse el atributo `lang` del documento y todo el contenido visible y la interfaz.
+- **FR-017**: El sitio MUST incluir un control accesible para alternar el idioma de la página entre español e inglés. El cambio MUST aplicarse de inmediato y sin recargar; el idioma por defecto MUST ser inglés y la elección del visitante MUST persistir entre visitas. Al cambiar de idioma MUST actualizarse el atributo `lang` del documento y todo el contenido visible y la interfaz.
 
 ### Key Entities *(include if feature involves data)*
 
@@ -195,7 +196,7 @@ Un visitante que prefiere leer en inglés (o un reclutador internacional) puede 
 - El sitio es una página única sin backend ni funcionalidades de servidor.
 - La foto de perfil y el enlace de LinkedIn se incorporarán más adelante; hasta entonces se muestran espacios reservados sin enlaces rotos ni fallos de diseño.
 - El archivo PDF del CV se aportará por separado; hasta entonces el botón apunta a una ubicación reservada que no conduce a un error.
-- Todo el contenido visible y la interfaz están disponibles en español e inglés con tono formal; el español es el idioma por defecto.
+- Todo el contenido visible y la interfaz están disponibles en inglés y español con tono formal; el inglés es el idioma por defecto y el español es una opción manual con el control de idioma.
 - Las traducciones al inglés del contenido del portafolio las mantiene el autor; los nombres propios, las tecnologías y los datos de contacto no se traducen.
 - Los repositorios privados no son accesibles públicamente, por lo que se muestran como etiqueta en lugar de enlace.
 - El sitio se publica en entorno de hosting estático (GitHub Pages), sin código de servidor ni secretos.

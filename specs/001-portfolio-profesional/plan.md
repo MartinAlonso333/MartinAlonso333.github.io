@@ -13,7 +13,7 @@ compilado como **sitio 100 % estático** (`output: 'export'`) y publicado en Git
 Pages mediante GitHub Actions. Todo el contenido (perfil, habilidades, formación,
 proyectos, contacto) reside en un **único módulo de datos tipado** separado de los
 componentes, de modo que agregar o editar contenido no implique tocar la lógica. El
-contenido es **bilingüe** (español por defecto e inglés): todo texto legible se modela
+contenido es **bilingüe** (inglés por defecto y español): todo texto legible se modela
 como `LocalizedText` y el visitante alterna el idioma al instante con un control
 accesible, sin recargar, con la elección persistida. El
 tema claro/oscuro respeta la preferencia del sistema, permite alternancia manual sin
@@ -55,8 +55,9 @@ idioma se comparte con un provider mínimo; el texto no se duplica en la página
 
 **Constraints**: `output: 'export'` obligatorio; sin código de servidor, sin rutas de
 API, sin secretos versionados. Diseño mobile-first entre 320 px y 1920 px. WCAG 2.1
-AA. Tema claro/oscuro sin parpadeo. Español por defecto; alternancia de idioma al
-instante sin cambiar la URL. Dependencias fijadas a versiones concretas.
+AA. Tema claro/oscuro sin parpadeo. Inglés por defecto (`lang="en"`); alternancia de
+idioma al instante sin cambiar la URL, con la elección persistida. Dependencias fijadas a
+versiones concretas.
 
 **Scale/Scope**: 1 página, 6 secciones (presentación, habilidades, formación,
 proyectos, contacto y navegación), 4 proyectos, ~5 categorías de habilidades, 2
@@ -115,7 +116,7 @@ public/                       # Assets estáticos servidos tal cual
 
 src/
 ├── app/
-│   ├── layout.tsx            # <html lang="es">, metadatos, script anti-parpadeo, LanguageProvider
+│   ├── layout.tsx            # <html lang="en">, metadatos, script anti-parpadeo, LanguageProvider
 │   ├── page.tsx              # Composición de las secciones (client component)
 │   └── globals.css           # @import "tailwindcss", tokens y @custom-variant dark
 ├── components/
@@ -157,6 +158,7 @@ materializa el Principio VI. Los artefactos de build (`out/`, `.next/`,
 Definida en `src/app/globals.css` bajo `:root` (claro) y `.dark` (oscuro), y expuesta a
 Tailwind v4 mediante `@theme inline`. Los componentes solo usan utilidades de token
 (`bg-background`, `bg-muted`, `text-foreground`, `text-muted-foreground`, `text-accent`,
+`bg-accent`, `text-accent-foreground`, `bg-badge`, `text-badge-foreground`,
 `border-border`, `border-accent`, `outline-accent`): **no hay colores fijos ni valores
 arbitrarios en los `.tsx`** (verificado con un barrido de literales `#hex` y de utilidades
 de color).
@@ -165,37 +167,57 @@ de color).
 
 | Token | Rol | Modo claro | Modo oscuro |
 |-------|-----|-----------|-------------|
-| `--background` | fondo | `#FAFAF9` | `#0F1115` |
-| `--muted` | superficie | `#FFFFFF` | `#171A21` |
-| `--foreground` | texto | `#1C1917` | `#E8EAED` |
-| `--muted-foreground` | texto secundario | `#57534E` | `#9AA3AF` |
-| `--accent` | acento | `#0F766E` | `#2DD4BF` |
-| `--accent-foreground` | texto sobre acento | `#FFFFFF` | `#042F2E` |
-| `--border` | bordes | `#E7E5E4` | `#2A2F3A` |
+| `--background` | fondo | `#FAFAFA` | `#1A1726` |
+| `--muted` | superficie / tarjeta | `#FFFFFF` | `#242035` |
+| `--foreground` | texto | `#18181B` | `#EDEBF5` |
+| `--muted-foreground` | texto secundario | `#52525B` | `#A9A3BF` |
+| `--accent` | acento | `#6D28D9` | `#A78BFA` |
+| `--accent-foreground` | texto sobre acento | `#FFFFFF` | `#1A1726` |
+| `--badge` | fondo de etiquetas | `#EDE9FE` | `#3B2F6B` |
+| `--badge-foreground` | texto de etiquetas | `#5B21B6` | `#DDD6FE` |
+| `--border` | bordes | `#E4E4E7` | `#3A3452` |
 
-### Contraste medido (WCAG 2.1, fórmula reluminancia sRGB)
+### Uso del acento (consistente)
+
+| Elemento | Recurso |
+|----------|---------|
+| Títulos de sección | Clase `.section-title` (`@layer components`): marca corta en `--accent` antes del texto |
+| Etiquetas de tecnologías | `bg-badge` + `text-badge-foreground` (tokens de etiqueta) |
+| Botones primarios (enlaces a repositorio) | `bg-accent` + `text-accent-foreground`, hover `bg-accent/90` |
+| Enlaces (marca del header, navegación) | `hover:text-accent` |
+| Tarjetas de proyecto | `hover:border-accent` y `focus-within:border-accent` (también al enfocar sus enlaces) |
+| Anillo de foco | `focus-visible:outline-2 outline-offset-2 outline-accent` en **todos** los interactivos, incluidos los botones de idioma y de tema |
+
+Las tarjetas usan `bg-muted` sólido (`#FFFFFF` / `#242035`) para que los ratios medidos
+correspondan al color real de la superficie.
+
+### Contraste medido (WCAG 2.1, fórmula de luminancia relativa sRGB)
 
 | Par | Claro | Oscuro | Mínimo |
 |-----|-------|--------|--------|
-| texto / fondo | 16,74:1 | 15,68:1 | 4,5:1 |
-| texto / superficie | 17,49:1 | 14,45:1 | 4,5:1 |
-| texto / tarjeta (`bg-muted/40` → `#FCFCFB` / `#12151A`) | 17,04:1 | 15,18:1 | 4,5:1 |
-| texto secundario / fondo | 7,30:1 | 7,41:1 | 4,5:1 |
-| texto secundario / superficie | 7,63:1 | 6,82:1 | 4,5:1 |
-| acento / fondo (hover de enlaces) | 5,24:1 | 10,15:1 | 4,5:1 |
-| acento / superficie | 5,47:1 | 9,35:1 | 4,5:1 |
-| texto sobre acento / acento | 5,47:1 | 7,77:1 | 4,5:1 |
-| texto grande (h1, 30 px) / fondo | 16,74:1 | 15,68:1 | 3:1 |
+| texto / fondo | 16,97:1 | 14,90:1 | 4,5:1 |
+| texto / tarjeta | 17,72:1 | 13,36:1 | 4,5:1 |
+| texto secundario / fondo | 7,41:1 | 7,27:1 | 4,5:1 |
+| texto secundario / tarjeta | 7,73:1 | 6,51:1 | 4,5:1 |
+| acento / fondo (enlaces, anillo de foco) | 6,81:1 | 6,46:1 | 4,5:1 (3:1 el anillo) |
+| acento / tarjeta (enlaces, borde de tarjeta) | 7,10:1 | 5,79:1 | 4,5:1 (3:1 el anillo) |
+| texto sobre acento / acento (botones primarios) | 7,10:1 | 6,46:1 | 4,5:1 |
+| texto etiqueta / fondo etiqueta | 7,57:1 | 8,38:1 | 4,5:1 |
+| texto grande (`h1` 30 px, `h2` 24 px) / fondo | 16,97:1 | 14,90:1 | 3:1 |
 
-**Foco visible (FR-015, SC-006)**: `focus-visible:outline-2 … outline-accent` con
-`outline-offset-2`; el acento contra el fondo da **5,24:1 (claro)** y **10,15:1 (oscuro)**,
-por encima del 3:1 exigido al indicador de foco, y se distingue en ambos temas.
+Todos los pares de texto superan 4,5:1 en ambos temas. **Foco visible** (FR-015, SC-006):
+el acento contra el fondo da **6,81:1 (claro)** y **6,46:1 (oscuro)**, por encima del 3:1
+exigido al indicador de foco.
 
-**Bordes**: `--border` (`#E7E5E4` / `#2A2F3A`) da 1,20:1 y 1,41:1 contra el fondo, por
-debajo de 3:1. Los bordes son **decorativos**: no identifican por sí solos controles ni
-estados (WCAG 1.4.11 no aplica), porque la identificación de cada botón/enlace la da su
-texto, que sí cumple ≥ 4,5:1 en ambos temas. El color pedido por el usuario se respeta sin
-ajustes.
+**Pares informativos (sin requisito de contraste de texto)**:
+
+- Fondo de etiqueta contra la tarjeta: 1,19:1 (claro) y 1,35:1 (oscuro). La etiqueta no
+  depende del borde ni del fondo para identificarse: su texto cumple 7,57:1 / 8,38:1.
+- `--border` contra fondo/tarjeta: 1,22:1 / 1,27:1 (claro) y 1,50:1 / 1,35:1 (oscuro).
+  Los bordes son **decorativos**: no identifican por sí solos controles ni estados
+  (WCAG 1.4.11 no aplica), porque la identificación de cada botón/enlace la da su texto,
+  que sí cumple ≥ 4,5:1 en ambos temas. El color pedido por el usuario se respeta sin
+  ajustes.
 
 ## Complexity Tracking
 

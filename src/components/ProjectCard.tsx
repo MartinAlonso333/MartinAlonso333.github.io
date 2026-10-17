@@ -32,7 +32,7 @@ export function ProjectCard({ project }: { project: Project }) {
   );
 
   return (
-    <article className="flex h-full flex-col gap-4 rounded-lg border border-border bg-muted/40 p-5">
+    <article className="flex h-full flex-col gap-4 rounded-lg border border-border bg-muted p-5 transition-colors hover:border-accent focus-within:border-accent">
       <header className="space-y-2">
         <h3 className="text-xl font-semibold">{pick(project.name, language)}</h3>
         <p className="inline-block rounded-full bg-background px-3 py-1 text-xs font-medium text-muted-foreground">
@@ -51,7 +51,7 @@ export function ProjectCard({ project }: { project: Project }) {
         {project.technologies.map((technology) => (
           <li
             key={technology}
-            className="rounded bg-background px-2 py-1 text-muted-foreground"
+            className="rounded bg-badge px-2 py-1 font-medium text-badge-foreground"
           >
             {technology}
           </li>
@@ -69,7 +69,7 @@ export function ProjectCard({ project }: { project: Project }) {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={`${label} (${pick(ui.repositoryLinkAriaSuffix, language)})`}
-                  className="inline-flex min-h-11 items-center gap-2 rounded border border-border px-3 text-sm font-medium transition-colors hover:border-accent hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+                  className="inline-flex min-h-11 items-center gap-2 rounded bg-accent px-3 text-sm font-medium text-accent-foreground transition-colors hover:bg-accent/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
                 >
                   <GitHubIcon />
                   {label}

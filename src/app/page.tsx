@@ -15,15 +15,15 @@ export default function Home() {
     <>
       <Header />
       <main className="mx-auto max-w-5xl space-y-16 px-4 py-16">
-        <section id="presentacion" aria-label={pick(ui.sections.presentacion, language)}>
+        <section id="about" aria-label={pick(ui.sections.about, language)}>
           <Hero profile={portfolio.profile} />
         </section>
-        <section id="habilidades" aria-label={pick(ui.sections.habilidades, language)} />
-        <section id="formacion" aria-label={pick(ui.sections.formacion, language)} />
-        <section id="proyectos" aria-label={pick(ui.sections.proyectos, language)}>
+        <section id="skills" aria-label={pick(ui.sections.skills, language)} />
+        <section id="education" aria-label={pick(ui.sections.education, language)} />
+        <section id="projects" aria-label={pick(ui.sections.projects, language)}>
           <Projects projects={portfolio.projects} />
         </section>
-        <section id="contacto" aria-label={pick(ui.sections.contacto, language)} />
+        <section id="contact" aria-label={pick(ui.sections.contact, language)} />
       </main>
     </>
   );
