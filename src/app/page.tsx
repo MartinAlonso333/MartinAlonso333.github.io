@@ -19,7 +19,7 @@ export default function Home() {
       <Header />
       <main className="mx-auto max-w-5xl space-y-16 px-4 py-16">
         <section id="about" aria-label={pick(ui.sections.about, language)}>
-          <Hero profile={portfolio.profile} />
+          <Hero profile={portfolio.profile} cv={portfolio.cv} />
         </section>
         <section id="skills" aria-label={pick(ui.sections.skills, language)}>
           <Skills skills={portfolio.skills} />

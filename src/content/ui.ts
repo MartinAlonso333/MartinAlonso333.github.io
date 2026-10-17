@@ -20,6 +20,10 @@ export interface UiContent {
   hero: {
     photoPlaceholder: LocalizedText;
   };
+  cv: {
+    download: LocalizedText;
+    comingSoon: LocalizedText;
+  };
   projects: {
     heading: LocalizedText;
   };
@@ -80,6 +84,10 @@ export const ui: UiContent = {
       es: "Espacio reservado para la foto de perfil",
       en: "Placeholder for the profile photo",
     },
+  },
+  cv: {
+    download: { es: "Descargar CV", en: "Download CV" },
+    comingSoon: { es: "Próximamente", en: "Coming soon" },
   },
   projects: {
     heading: { es: "Proyectos", en: "Projects" },

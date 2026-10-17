@@ -15,7 +15,7 @@ Cubre Restricciones Adicionales de la constitución, FR-012, FR-016 y SC-009.
 
 ## Contenido de `out/` (salida publicable)
 
-- `index.html` — la página única, en español (`<html lang="es">`).
+- `index.html` — la página única, en inglés (`<html lang="en">`).
 - Assets con hash en `_next/static/`.
 - Recursos de `public/` copiados (foto, CV, favicon) cuando existan.
 - MUST NOT incluirse ningún artefacto de desarrollo (`node_modules/`, `.next/`,

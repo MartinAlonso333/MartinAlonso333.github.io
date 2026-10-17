@@ -135,11 +135,11 @@ Proyecto único en la raíz del repositorio. Paths: `src/`, `public/`,
 
 **Independent Test**: El botón de CV no lleva a error; alternar tema funciona, persiste y no parpadea (quickstart V5/V4).
 
-- [ ] T027 [US6] Add the CV download button to `src/components/Hero.tsx` using `content.cv`: si `cv.available === false`, el botón no conduce a error ni a enlace roto (atributo deshabilitado o `href` a ancla de reserva); si está disponible, enlaza a `cv.url` (FR-011, contract invariante 5)
+- [x] T027 [US6] Add the CV download button to `src/components/Hero.tsx` using `content.cv`: si `cv.available === false`, el botón no conduce a error ni a enlace roto (atributo deshabilitado o `href` a ancla de reserva); si está disponible, enlaza a `cv.url` (FR-011, contract invariante 5)
 - [x] T028 [P] [US6] Create `src/components/ThemeToggle.tsx` como client component (`'use client'`): `<button>` con etiqueta accesible que describa la acción, ícono SVG con `aria-hidden="true"`, operable por teclado, foco visible (contracts/theme.contract.md, Principio IV)
 - [x] T029 [US6] Integrate ThemeToggle into `src/components/Header.tsx`
 - [x] T030 [US6] Implement theme behavior in `src/components/ThemeToggle.tsx` + `src/lib/theme.ts`: alternar claro/oscuro, escribir `localStorage.theme`, restaurar al cargar, y escuchar cambios de `prefers-color-scheme` solo cuando la preferencia sea `'system'`; evitar hydration mismatch leyendo estado tras montar (FR-013, SC-005, contracts/theme.contract.md)
-- [ ] T031 [P] [US6] Add static assets placeholders in `public/`: `favicon.ico` y carpeta lista para `foto.jpg` y `cv.pdf` (los archivos reales se agregan luego como cambio de contenido; sin enlaces rotos mientras falten)
+- [x] T031 [P] [US6] Add static assets placeholders in `public/`: `favicon.ico` y carpeta lista para `foto.jpg` y `cv.pdf` (los archivos reales se agregan luego como cambio de contenido; sin enlaces rotos mientras falten)
 
 **Checkpoint**: Todas las historias funcionan de forma independiente.
 
@@ -151,7 +151,7 @@ Proyecto único en la raíz del repositorio. Paths: `src/`, `public/`,
 
 **Independent Test**: Cambiar el idioma con el control, verificar que todo el contenido y la interfaz cambian de inmediato sin recargar, que `<html lang>` se actualiza y que la elección persiste tras recargar; con JS deshabilitado se ve inglés (quickstart V8).
 
-- [x] T032 [P] [US7] Create `src/lib/i18n.ts`: constantes `DEFAULT_LANGUAGE = 'es'`, `LANGUAGES`, `LANGUAGE_STORAGE_KEY = 'lang'` y helpers `isLanguage` (type guard) y `pick(text, language)` (contracts/language.contract.md)
+- [x] T032 [P] [US7] Create `src/lib/i18n.ts`: constantes `DEFAULT_LANGUAGE = 'en'` (idioma por defecto: inglés), `LANGUAGES`, `LANGUAGE_STORAGE_KEY = 'lang'` y helpers `isLanguage` (type guard) y `pick(text, language)` (contracts/language.contract.md)
 - [x] T033 [P] [US7] Create `src/content/ui.ts`: diccionario de textos de interfaz bilingüe (`LocalizedText`) — navegación, títulos de sección, etiquetas de estado de proyecto y de repositorio privado, etiquetas de tipo de formación, textos de reserva (foto), metadatos (title/description) y `aria-label` del control de idioma (contracts/language.contract.md, Principio VI)
 - [x] T034 [US7] Create `src/components/LanguageProvider.tsx` (`'use client'`): contexto `{ language, setLanguage, toggle }` y hook `useLanguage()`; el idioma es un almacén externo leído con `useSyncExternalStore` (snapshot del servidor en `DEFAULT_LANGUAGE` para no diferir del HTML pre-renderizado, valor de `localStorage.lang` validado con `isLanguage` en cliente), escribe `document.documentElement.lang` desde un efecto y persiste el cambio en `localStorage.lang` (FR-017, contracts/language.contract.md; depende de T032)
 - [x] T035 [US7] Create `src/components/LanguageToggle.tsx` (`'use client'`): `<button>` con etiqueta accesible localizada, operable por teclado, foco visible y estado comunicado con texto (no solo color); alterna el idioma vía `useLanguage()` (FR-017, Principio IV; depende de T034)
@@ -166,8 +166,8 @@ Proyecto único en la raíz del repositorio. Paths: `src/`, `public/`,
 
 **Purpose**: Despliegue, responsive, accesibilidad, performance y documentación.
 
-- [ ] T038 [P] Create `.github/workflows/deploy.yml` (push a la rama principal): checkout, Node 20 LTS con caché npm, `npm ci`, `npm run build`, `actions/upload-pages-artifact` con `path: out`, `actions/deploy-pages`; permisos `contents: read`, `pages: write`, `id-token: write` (contracts/static-export.contract.md)
-- [ ] T039 [P] Update `README.md` with project description, stack, scripts (`dev`/`build`/`lint`/`typecheck`), structure and deployment notes (Restricciones Adicionales de la constitución)
+- [x] T038 [P] Create `.github/workflows/deploy.yml` (push a la rama principal): checkout, Node 20 LTS con caché npm, `npm ci`, `npm run build`, `actions/upload-pages-artifact` con `path: out`, `actions/deploy-pages`; permisos `contents: read`, `pages: write`, `id-token: write` (contracts/static-export.contract.md)
+- [x] T039 [P] Update `README.md` with project description, stack, scripts (`dev`/`build`/`lint`/`typecheck`), structure and deployment notes (Restricciones Adicionales de la constitución)
 - [ ] T040 [P] Verify responsive layout and cross-browser rendering of the built site (`out/`, served via `npx serve out`) at 320, 375, 768, 1024, 1440 and 1920 px across all sections in `src/components/`, in Chrome and Firefox on desktop and using the browser devtools mobile emulation; treat Safari, Edge and iOS devices as NOT verified (no access to them), and record that as a known limitation; fix any scroll horizontal, overlap or touch targets < 44 px, en ambos idiomas (FR-012, SC-003, SC-008, quickstart V6)
 - [ ] T041 [P] Verify accessibility of `out/index.html`: keyboard operability, visible focus, contrast ≥ 4.5:1, semantic HTML, image `alt`; run axe DevTools and Lighthouse a11y with no A/AA violations, en ambos idiomas (FR-015, SC-006, quickstart V7)
 - [ ] T042 [P] Verify performance budget on locally served `out/`: total transfer < 500 KB and LCP < 2.5 s on mid-tier mobile; confirm no third-party scripts/fonts and that the only client islands are ThemeToggle, LanguageToggle y LanguageProvider (SC-009, Principio II)
