@@ -51,7 +51,11 @@ npm run lint             # ESLint sin errores
 - Aparecen los 4 proyectos con descripción, puntos clave y tecnologías.
 - Al Toque y el simulador de granja muestran "En desarrollo" y "Repositorio privado"
   sin enlace.
-- Los proyectos públicos muestran enlace a GitHub.
+- PSA mostrará dos botones ("Código backend" y "Código frontend") en la misma tarjeta
+  cuando sus enlaces estén cargados.
+- Los repositorios públicos con enlace disponible muestran su botón etiquetado; los
+  públicos sin enlace (pendientes) no muestran botón ni enlace roto ni la etiqueta de
+  privado.
 
 ### V3 — Habilidades y formación (US3/US5, FR-004/FR-005)
 - Las 5 categorías de habilidades con sus tecnologías.

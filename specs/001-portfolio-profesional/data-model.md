@@ -17,7 +17,7 @@ PortfolioContent
 │   └── skills: string[]
 ├── education: EducationItem[]
 ├── projects: Project[]
-│   └── repository: RepositoryRef
+│   └── repositories: RepositoryRef[]
 ├── contact: ContactLink[]
 └── cv: CvResource
 ```
@@ -75,12 +75,20 @@ Proyecto destacado (FR-006, FR-007).
 - `highlights: string[]` — puntos clave
 - `technologies: string[]`
 - `status: ProjectStatus` — `'in-progress' | 'completed'`
-- `repository: RepositoryRef`
+- `repositories: RepositoryRef[]` — uno o más repositorios
 
 ### RepositoryRef
+Repositorio de un proyecto (FR-008).
+- `label: string` — etiqueta del repositorio: "Código fuente" (proyecto de un solo repo),
+  "Código backend" / "Código frontend" (PSA)
 - `visibility: 'public' | 'private'`
-- `url?: string` — **requerido si `visibility === 'public'`**, ausente si `private`
-  (FR-008)
+- `url?: string` — presente solo cuando el enlace está disponible; su ausencia en un
+  repositorio público representa el estado **pendiente**
+
+#### Estados derivados de un repositorio
+- **enlace** (`public` + `url`): se renderiza un botón etiquetado por repositorio.
+- **pendiente** (`public` + sin `url`): sin botón, sin enlace roto, sin etiqueta de privado.
+- **privado** (`private`): se muestra la etiqueta "Repositorio privado" en lugar de botón.
 
 ### ContactLink
 Canal de contacto (FR-010).
@@ -99,22 +107,27 @@ Botón de descarga del CV (FR-011).
 ## Reglas de validación (invariantes)
 
 1. `id` único dentro de cada colección (`skills`, `education`, `projects`).
-2. `repository.visibility === 'public'` ⇒ `repository.url` presente y no vacío.
-3. `repository.visibility === 'private'` ⇒ no se renderiza enlace; se muestra la
-   etiqueta "Repositorio privado".
-4. `status === 'in-progress'` ⇒ se muestra la etiqueta "En desarrollo".
-5. `contact.available === false` ⇒ no se renderiza enlace; se reserva el espacio.
-6. `cv.available === false` ⇒ el botón no conduce a error ni a enlace roto.
-7. `photo` ausente o `photo.available === false` ⇒ se muestra espacio reservado.
-8. Todas las imágenes con significado requieren `alt` no vacío (Principio IV).
-9. Sin duplicación de datos: las etiquetas derivadas ("En desarrollo",
-   "Repositorio privado") se calculan en `src/lib/content.ts`, no se escriben en el
-   contenido (Principio V).
+2. `repositories` tiene al menos un elemento por proyecto.
+3. `repository.visibility === 'private'` ⇒ `url` ausente; no se renderiza enlace; se muestra
+   la etiqueta "Repositorio privado".
+4. `repository.visibility === 'public' && repository.url` ⇒ la URL no es vacía y se
+   renderiza un botón por repositorio.
+5. `repository.visibility === 'public' && !repository.url` ⇒ estado "pendiente" válido:
+   sin botón, sin enlace roto y sin la etiqueta "Repositorio privado".
+6. `status === 'in-progress'` ⇒ se muestra la etiqueta "En desarrollo".
+7. `contact.available === false` ⇒ no se renderiza enlace; se reserva el espacio.
+8. `cv.available === false` ⇒ el botón no conduce a error ni a enlace roto.
+9. `photo` ausente o `photo.available === false` ⇒ se muestra espacio reservado.
+10. Todas las imágenes con significado requieren `alt` no vacío (Principio IV).
+11. Sin duplicación de datos: las etiquetas derivadas ("En desarrollo", "Finalizado",
+    "Repositorio privado") se calculan en `src/lib/content.ts`, no se escriben en el
+    contenido (Principio V).
 
 ## Estados y transiciones
 
 - **Proyecto**: `in-progress → completed` (cambio de contenido, sin tocar componentes).
-- **Repositorio**: `private → public` (al publicarse, se agrega `url`).
+- **Repositorio**: `pendiente → enlace` al agregar `url`; `public → private` al privatizar
+  (quitar `url`). Ambos son cambios de datos.
 - **Recursos diferidos** (`photo`, `cv`, LinkedIn): `available: false → true` al
   incorporar el recurso. Todos son cambios de datos.
 

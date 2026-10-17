@@ -16,6 +16,7 @@
 - Q: ¿La página debe incluir una barra de navegación con enlaces a cada sección, o el visitante solo recorre el contenido con scroll? → A: Sí, barra de navegación con enlaces de ancla a cada sección.
 - Q: ¿Qué navegadores y dispositivos deben considerarse como soportados para verificar el sitio? → A: Navegadores evergreens actuales (Chrome, Firefox, Safari, Edge) y móviles (Safari iOS, Chrome Android).
 - Q: ¿La especificación debe fijar un objetivo de performance medible para la carga del sitio? → A: Sí, adoptar el presupuesto de la constitución: <500 KB de transferencia total y LCP <2,5 s en móvil de gama media.
+- Q: ¿Cómo se modelan los proyectos con más de un repositorio y los repositorios públicos cuyo enlace todavía no está disponible? → A: Cada proyecto expone una lista de repositorios, cada uno con una etiqueta, visibilidad y enlace opcional; un repositorio público sin URL se muestra como "pendiente" (sin enlace y sin la etiqueta de privado), los privados muestran "Repositorio privado" y los públicos con enlace disponible muestran un botón por repositorio.
 
 ## User Scenarios & Testing *(mandatory)*
 
@@ -40,14 +41,15 @@ Un visitante revisa los proyectos de Franco para evaluar su experiencia técnica
 
 **Why this priority**: Los proyectos son la evidencia principal de las capacidades del candidato y el principal motivo de consulta de un reclutador.
 
-**Independent Test**: Se puede probar verificando que los cuatro proyectos aparecen con descripción, puntos clave, tecnologías y su estado, y que los repositorios públicos ofrecen enlace mientras los privados no.
+**Independent Test**: Se puede probar verificando que los cuatro proyectos aparecen con descripción, puntos clave, tecnologías y su estado, que los repositorios públicos con enlace disponible lo ofrecen, y que los privados y los pendientes no generan enlaces rotos.
 
 **Acceptance Scenarios**:
 
 1. **Given** un visitante revisa la sección de proyectos, **When** la recorre, **Then** ve los proyectos Al Toque, el simulador de granja multijugador y multihilo en C++, PSA y Yet Another Battle City, cada uno con descripción, puntos clave y tecnologías.
 2. **Given** un proyecto tiene repositorio privado (Al Toque, simulador de granja), **When** el visitante lo observa, **Then** ve la etiqueta "Repositorio privado" en lugar de un enlace a GitHub.
 3. **Given** un proyecto está en curso (Al Toque, simulador de granja), **When** el visitante lo observa, **Then** ve la etiqueta "En desarrollo".
-4. **Given** un proyecto tiene repositorio público, **When** el visitante lo observa, **Then** puede acceder a un enlace a su GitHub.
+4. **Given** un proyecto tiene uno o más repositorios públicos con enlace disponible, **When** el visitante lo observa, **Then** puede acceder a cada repositorio mediante su botón etiquetado (por ejemplo, "Código backend" y "Código frontend").
+5. **Given** un proyecto tiene repositorios públicos cuyo enlace todavía no fue cargado, **When** el visitante lo observa, **Then** esos repositorios se muestran como pendientes, sin enlace y sin la etiqueta "Repositorio privado", sin generar enlaces rotos.
 
 ---
 
@@ -131,7 +133,7 @@ Un visitante descarga el CV en PDF y, además, consulta el sitio cómodamente de
 - **FR-005**: El sitio MUST incluir una sección de formación con, al menos, Ingeniería Informática en FIUBA (cursando 4.º año) y un curso de JavaScript.
 - **FR-006**: El sitio MUST incluir una sección de proyectos destacados que contenga los cuatro proyectos: Al Toque, el simulador de granja multijugador y multihilo en C++, PSA y Yet Another Battle City.
 - **FR-007**: Cada proyecto MUST mostrar nombre, descripción, puntos clave, tecnologías y su estado.
-- **FR-008**: Los proyectos con repositorio público MUST mostrar un enlace a su GitHub; los proyectos con repositorio privado (Al Toque y el simulador de granja) MUST mostrar la etiqueta "Repositorio privado" en lugar de un enlace.
+- **FR-008**: Cada proyecto MUST exponer una lista de repositorios, cada uno con una etiqueta. Los repositorios MUST mostrarse como enlaces a GitHub cuando su enlace esté disponible; los repositorios privados (Al Toque y el simulador de granja) MUST mostrar la etiqueta "Repositorio privado" en lugar de un enlace; los repositorios públicos cuyo enlace aún no esté disponible MUST mostrarse como pendientes (sin enlace y sin la etiqueta de privado), sin generar enlaces rotos.
 - **FR-009**: Los proyectos en curso (Al Toque y el simulador de granja) MUST mostrar la etiqueta "En desarrollo".
 - **FR-010**: El sitio MUST incluir una sección de contacto con el correo 04francomartin@gmail.com y el perfil de GitHub (MartinAlonso333), y MUST reservar un espacio para el enlace de LinkedIn que se agregará más adelante.
 - **FR-011**: El sitio MUST incluir un botón para descargar el CV en formato PDF; mientras el archivo no esté disponible, el botón MUST apuntar a una ubicación reservada que no conduzca a un enlace roto ni a una página de error.
@@ -147,7 +149,7 @@ Un visitante descarga el CV en PDF y, además, consulta el sitio cómodamente de
 - **Habilidad**: tecnología o competencia individual; atributos: nombre; pertenece a una categoría.
 - **Categoría de habilidad**: agrupación de habilidades; atributos: nombre (Lenguajes, Backend, Bases de datos, Infraestructura y monitoreo, Frontend); contiene varias habilidades.
 - **Formación**: estudio o curso realizado; atributos: nombre, institución, estado (por ejemplo, cursando), tipo.
-- **Proyecto**: trabajo mostrado; atributos: nombre, descripción, puntos clave, tecnologías, estado (en desarrollo / finalizado), visibilidad del repositorio (público / privado), enlace a GitHub (cuando es público).
+- **Proyecto**: trabajo mostrado; atributos: nombre, descripción, puntos clave, tecnologías, estado (en desarrollo / finalizado) y lista de repositorios; cada repositorio tiene etiqueta (por ejemplo, "Código fuente", "Código backend"), visibilidad (público / privado) y enlace a GitHub cuando esté disponible (los públicos sin enlace quedan pendientes).
 - **Medio de contacto**: canal para contactar a Franco; atributos: tipo (correo, GitHub, LinkedIn), valor, disponibilidad (disponible o pendiente).
 
 ## Success Criteria *(mandatory)*

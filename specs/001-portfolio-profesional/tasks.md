@@ -34,12 +34,12 @@ Proyecto único en la raíz del repositorio. Paths: `src/`, `public/`,
 
 **Purpose**: Inicialización del proyecto Next.js + Tailwind y tooling.
 
-- [ ] T001 Create the project directory structure per plan.md: `src/app/`, `src/components/`, `src/content/`, `src/types/`, `src/lib/`, `public/`, `.github/workflows/`
-- [ ] T002 [P] Initialize `package.json` with exact pinned dependencies `next` (16.x), `react` (19.2.x), `react-dom` (19.2.x) and scripts `dev`, `build`, `start`, `lint`, `typecheck` (`tsc --noEmit`) — sin rangos `^`/`~` (contracts/static-export.contract.md)
-- [ ] T003 [P] Configure Tailwind CSS v4: install `tailwindcss` + `@tailwindcss/postcss` (versions pinned), create `postcss.config.mjs`
-- [ ] T004 [P] Configure TypeScript in `tsconfig.json` with `"strict": true` and path alias `@/*` → `src/*`
-- [ ] T005 [P] Configure ESLint (`eslint-config-next`) and Prettier; add `.gitignore` ignoring `node_modules/`, `.next/`, `out/`
-- [ ] T006 [P] Create `next.config.ts` with `output: 'export'` and `images: { unoptimized: true }`, sin `basePath` ni `assetPrefix` (contracts/static-export.contract.md)
+- [x] T001 Create the project directory structure per plan.md: `src/app/`, `src/components/`, `src/content/`, `src/types/`, `src/lib/`, `public/`, `.github/workflows/`
+- [x] T002 [P] Initialize `package.json` with exact pinned dependencies `next` (16.x), `react` (19.3.x), `react-dom` (19.3.x) and scripts `dev`, `build`, `start`, `lint`, `typecheck` (`tsc --noEmit`) — sin rangos `^`/`~` (contracts/static-export.contract.md)
+- [x] T003 [P] Configure Tailwind CSS v4: install `tailwindcss` + `@tailwindcss/postcss` (versions pinned), create `postcss.config.mjs`
+- [x] T004 [P] Configure TypeScript in `tsconfig.json` with `"strict": true` and path alias `@/*` → `src/*`
+- [x] T005 [P] Configure ESLint (`eslint-config-next`) and Prettier; add `.gitignore` ignoring `node_modules/`, `.next/`, `out/`
+- [x] T006 [P] Create `next.config.ts` with `output: 'export'` and `images: { unoptimized: true }`, sin `basePath` ni `assetPrefix` (contracts/static-export.contract.md)
 
 ---
 
@@ -49,14 +49,14 @@ Proyecto único en la raíz del repositorio. Paths: `src/`, `public/`,
 
 **⚠️ CRITICAL**: Ninguna historia puede comenzar hasta terminar esta fase.
 
-- [ ] T007 Create content interfaces in `src/types/content.ts` exactly as defined in contracts/content-model.contract.md (`PortfolioContent`, `Profile`, `Language`, `PhotoRef`, `SkillCategory`, `EducationItem`, `Project`, `RepositoryRef`, `ProjectStatus`, `RepositoryVisibility`, `ContactLink`, `ContactKind`, `CvResource`)
-- [ ] T008 Populate `src/content/portfolio.ts` with all content (perfil de Franco, 5 categorías de habilidades, 2 ítems de formación, 4 proyectos, 3 contactos, recurso CV) satisfying all invariants of data-model.md: `id` único por colección; `visibility === 'public'` ⇒ `url` no vacío; `visibility === 'private'` ⇒ sin `url`; `available === false` (LinkedIn, CV) ⇒ sin `url`; `photo.available === false` (depende de T007)
-- [ ] T009 [P] Create derived labels/selectors in `src/lib/content.ts`: función de etiqueta de estado (`'in-progress'` → "En desarrollo", `'completed'` → "Finalizado") y de repositorio (`'private'` → "Repositorio privado"), sin duplicar esos textos en `portfolio.ts` (contracts/content-model.contract.md)
-- [ ] T010 [P] Create theme constants/helpers in `src/lib/theme.ts`: clave `theme` de `localStorage` como constante única, valores permitidos `['light','dark','system']`, y función de resolución de tema efectivo (contracts/theme.contract.md)
-- [ ] T011 Configure `src/app/globals.css`: `@import "tailwindcss"`, tokens semánticos de color y `@custom-variant dark (&:where(.dark, .dark *));` (contracts/theme.contract.md)
-- [ ] T012 Create `src/app/layout.tsx`: `<html lang="es">`, metadatos (title/description), y script en línea anti-parpadeo en `<head>` que lee `localStorage` + `prefers-color-scheme` y aplica la clase `dark`, validando el valor contra la lista blanca (contracts/theme.contract.md)
-- [ ] T013 Create `src/components/Header.tsx` con navegación fija (sticky) por anclas a `#presentacion`, `#habilidades`, `#formacion`, `#proyectos`, `#contacto`, operable por teclado con foco visible, HTML semántico (`<header>`, `<nav>`), con marca y espacio para el conmutador de tema (FR-016)
-- [ ] T014 Create `src/app/page.tsx` como composición de secciones, renderizando `Header` y un `<main>` preparado para las secciones (placeholders por historia) (depende de T013)
+- [x] T007 Create content interfaces in `src/types/content.ts` exactly as defined in contracts/content-model.contract.md (`PortfolioContent`, `Profile`, `Language`, `PhotoRef`, `SkillCategory`, `EducationItem`, `Project` con `repositories: RepositoryRef[]`, `RepositoryRef` con `label`/`visibility`/`url?`, `ProjectStatus`, `RepositoryVisibility`, `ContactLink`, `ContactKind`, `CvResource`)
+- [x] T008 Populate `src/content/portfolio.ts` with all content (perfil de Franco, 5 categorías de habilidades, 2 ítems de formación, 4 proyectos, 3 contactos, recurso CV) satisfying all invariants of data-model.md: `id` único por colección; `repositories` con al menos un elemento por proyecto; `visibility === 'private'` ⇒ sin `url`; repositorio público con `url` ⇒ enlace disponible; repositorio público sin `url` ⇒ estado "pendiente"; `available === false` (LinkedIn, CV) ⇒ sin `url`; `photo.available === false`; PSA con dos repositorios ("Código backend" y "Código frontend") y los de un solo repositorio con "Código fuente"; dejar un comentario `TODO` con la URL a cargar en los repositorios pendientes (depende de T007)
+- [x] T009 [P] Create derived labels/selectors in `src/lib/content.ts`: función de etiqueta de estado (`'in-progress'` → "En desarrollo", `'completed'` → "Finalizado") y de repositorio (`'private'` → "Repositorio privado", público con `url` → enlace, público sin `url` → pendiente), sin duplicar esos textos en `portfolio.ts` (contracts/content-model.contract.md)
+- [x] T010 [P] Create theme constants/helpers in `src/lib/theme.ts`: clave `theme` de `localStorage` como constante única, valores permitidos `['light','dark','system']`, y función de resolución de tema efectivo (contracts/theme.contract.md)
+- [x] T011 Configure `src/app/globals.css`: `@import "tailwindcss"`, tokens semánticos de color y `@custom-variant dark (&:where(.dark, .dark *));` (contracts/theme.contract.md)
+- [x] T012 Create `src/app/layout.tsx`: `<html lang="es">`, metadatos (title/description), y script en línea anti-parpadeo en `<head>` que lee `localStorage` + `prefers-color-scheme` y aplica la clase `dark`, validando el valor contra la lista blanca (contracts/theme.contract.md)
+- [x] T013 Create `src/components/Header.tsx` con navegación fija (sticky) por anclas a `#presentacion`, `#habilidades`, `#formacion`, `#proyectos`, `#contacto`, operable por teclado con foco visible, HTML semántico (`<header>`, `<nav>`), con marca y espacio para el conmutador de tema (FR-016)
+- [x] T014 Create `src/app/page.tsx` como composición de secciones, renderizando `Header` y un `<main>` preparado para las secciones (placeholders por historia) (depende de T013)
 
 **Checkpoint**: Contrato de contenido, tema base y layout listos; las historias pueden comenzar.
 
@@ -78,11 +78,11 @@ Proyecto único en la raíz del repositorio. Paths: `src/`, `public/`,
 
 ## Phase 4: User Story 2 - Explorar los proyectos destacados (Priority: P1)
 
-**Goal**: Los cuatro proyectos se muestran con descripción, puntos clave, tecnologías, estado y repositorio.
+**Goal**: Los cuatro proyectos se muestran con descripción, puntos clave, tecnologías, estado y sus repositorios.
 
-**Independent Test**: Verificar que los 4 proyectos aparecen con sus datos; los privados/en curso muestran etiquetas y los públicos muestran enlace (quickstart V2).
+**Independent Test**: Verificar que los 4 proyectos aparecen con sus datos; los privados/en curso muestran etiquetas, los públicos con enlace disponible muestran sus botones y los pendientes no generan enlaces rotos (quickstart V2).
 
-- [ ] T018 [P] [US2] Create `src/components/ProjectCard.tsx` rendering name, description, `highlights` (lista), `technologies` (lista), etiqueta de estado derivada de `src/lib/content.ts`, y repositorio: si `visibility === 'public'` mostrar enlace `repository.url`; si `'private'` mostrar "Repositorio privado" sin enlace (FR-007, FR-008, FR-009; contract invariantes 2 y 3)
+- [ ] T018 [P] [US2] Create `src/components/ProjectCard.tsx` rendering name, description, `highlights` (lista), `technologies` (lista), etiqueta de estado derivada de `src/lib/content.ts`, y todos los `repositories` del proyecto dentro de la misma tarjeta: repositorio público con `url` ⇒ botón con ícono de GitHub, uno al lado del otro (en columna si no entran en pantallas angostas), etiquetado con `repository.label` ("Código backend", "Código frontend") e indicando a qué repositorio lleva; repositorio privado ⇒ etiqueta "Repositorio privado" en lugar de botón; repositorio público sin `url` (pendiente) ⇒ sin botón ni enlace roto. Los botones MUST ser operables por teclado, con foco visible, contraste suficiente y objetivo táctil ≥ 44 px (FR-007, FR-008, FR-009; contract invariantes 2–5; Principio IV)
 - [ ] T019 [US2] Create `src/components/Projects.tsx` mapping `content.projects` a `ProjectCard` en el orden del arreglo, con `<h2>` de sección (FR-006)
 - [ ] T020 [US2] Integrate Projects into `src/app/page.tsx` dentro de `<section id="proyectos">`
 
