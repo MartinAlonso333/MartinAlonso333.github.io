@@ -42,11 +42,16 @@ export interface SkillCategory {
 export interface Certificate {
   id: string;
   title: LocalizedText;
+  /** Emisor; vacío mientras se desconoce. */
   issuer: LocalizedText;
   /** Fecha de emisión, opcional. */
   date?: LocalizedText;
-  /** URL a un PDF en `public/certificates/` o a un enlace externo de verificación. */
-  url: string;
+  /**
+   * URL a un PDF en `public/certificates/` o a un enlace externo de verificación.
+   * Ausente mientras el certificado no esté disponible: en ese caso NO se renderiza
+   * (sin enlace roto ni texto de relleno). Ver data-model.md.
+   */
+  url?: string;
 }
 
 export interface EducationItem {

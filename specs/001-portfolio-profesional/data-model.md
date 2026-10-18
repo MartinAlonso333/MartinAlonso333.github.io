@@ -23,7 +23,7 @@ PortfolioContent
 │   └── photo?: PhotoRef              (alt: LocalizedText)
 ├── skills: SkillCategory[]           (name: LocalizedText; skills: SkillItem[])
 ├── education: EducationItem[]        (program/institution/status: LocalizedText)
-│   └── certificates?: Certificate[]  (title/issuer/date?: LocalizedText; url: string)
+│   └── certificates?: Certificate[]  (title/issuer/date?: LocalizedText; url?: string)
 ├── projects: Project[]               (name/description/highlights: LocalizedText)
 │   └── repositories: RepositoryRef[] (label: LocalizedText)
 ├── contact: ContactLink[]            (label/value: LocalizedText)
@@ -95,14 +95,17 @@ Formación (FR-005).
 Certificado asociado a un ítem de formación (FR-005).
 - `id: string` — identificador estable y único dentro de los certificados del ítem
 - `title: LocalizedText` — título del certificado
-- `issuer: LocalizedText` — emisor
+- `issuer: LocalizedText` — emisor (puede ser vacío mientras se desconoce; no se muestra)
 - `date?: LocalizedText` — fecha de emisión (**opcional**)
-- `url: string` — enlace al PDF (`/certificates/<archivo>.pdf` en `public/certificates/`)
-  o a una URL externa de verificación (`https://…`)
+- `url?: string` — enlace al PDF (`/certificates/<archivo>.pdf` en `public/certificates/`)
+  o a una URL externa de verificación (`https://…`). **Ausente** mientras el certificado no
+  esté disponible; en ese caso **no se renderiza** (sin enlace roto ni texto de relleno).
 
 #### Render de un certificado (FR-005)
-- Se muestra un botón accesible "Ver certificado" / "View certificate" con ícono, cuyo texto
-  accesible indica a qué certificado lleva (incluye el `title`).
+- **Sin `url`** ⇒ el certificado **no se muestra** (ni botón, ni título, ni emisor): el sitio
+  público nunca exhibe datos de relleno.
+- Con `url`, se muestra un botón accesible "Ver certificado" / "View certificate" con ícono,
+  cuyo texto accesible indica a qué certificado lleva (incluye el `title`).
 - **Externo** (`url` comienza con `http`) ⇒ se abre en una **pestaña nueva** con
   `rel="noopener noreferrer"`.
 - **Interno** (PDF en `public/certificates/`) ⇒ se abre en la misma pestaña.
@@ -178,11 +181,15 @@ Botón de descarga del CV (FR-011).
     compilación.
 13. El idioma activo por defecto es `en`; si no hay preferencia guardada, se muestra `en`
     (visible incluso sin JavaScript).
-14. `certificate.url` no es vacía; si comienza con `http` es externa y se abre en una
-    pestaña nueva con `rel="noopener noreferrer"`; en caso contrario apunta a un PDF en
-    `public/certificates/` y se abre en la misma pestaña.
-15. Agregar una certificación es un cambio de datos: solo se añade una entrada a
-    `certificates` en `src/content/portfolio.ts`, sin tocar componentes (FR-014).
+14. Un certificado **sin `url`** no se renderiza (ni enlace roto ni texto de relleno). Si
+    `url` está presente y comienza con `http`, es externa y se abre en una pestaña nueva con
+    `rel="noopener noreferrer"`; en caso contrario apunta a un PDF en `public/certificates/`
+    y se abre en la misma pestaña.
+15. Una `institution` vacía (o solo espacios) no se renderiza: no deja espacios ni
+    separadores huérfanos.
+16. Agregar una certificación es un cambio de datos: solo se añade o completa una entrada en
+    `certificates` de un `EducationItem` en `src/content/portfolio.ts`, sin tocar
+    componentes (FR-014).
 
 ## Estados y transiciones
 
@@ -191,8 +198,8 @@ Botón de descarga del CV (FR-011).
   (quitar `url`). Ambos son cambios de datos.
 - **Recursos diferidos** (`photo`, `cv`, LinkedIn): `available: false → true` al
   incorporar el recurso. Todos son cambios de datos.
-- **Certificación**: `ausente → presente` al agregar una entrada a `certificates` de un
-  `EducationItem`; cambio de datos, sin tocar componentes.
+- **Certificación**: `oculto → visible` al completar `url` en una entrada de `certificates`
+  de un `EducationItem`; cambio de datos, sin tocar componentes.
 - **Idioma**: `es ↔ en` por acción del visitante; se persiste en `localStorage` (contrato
   `language.contract.md`). No cambia la URL.
 

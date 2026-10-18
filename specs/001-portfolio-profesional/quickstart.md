@@ -62,9 +62,11 @@ npm run lint             # ESLint sin errores
 - Las 6 categorías de habilidades (Lenguajes, Backend, Bases de datos, Infraestructura y
   monitoreo, Frontend y Metodología) con sus tecnologías.
 - Formación: FIUBA (cursando 4.º año) y curso de JavaScript.
-- Certificado del curso de JavaScript: botón "Ver certificado"/"View certificate" (ícono,
-  foco visible, operable por teclado) que abre el PDF en `public/certificates/`; si el enlace
-  es externo (`https://…`) se abre en una pestaña nueva.
+- Certificado del curso de JavaScript: mientras no tenga `url` **no se muestra** (sin enlace
+  roto ni texto de relleno). Al completar `url`, aparece el botón "Ver certificado"/"View
+  certificate" (ícono, foco visible, operable por teclado) que abre el PDF en
+  `public/certificates/`; si el enlace es externo (`https://…`) se abre en una pestaña nueva.
+- Institución vacía ⇒ no deja espacios ni separadores huérfanos.
 
 ### V4 — Contacto y CV (US4/US6, FR-010/FR-011)
 - Correo `04francomartin@gmail.com` como texto seleccionable con botón de copiado (confirma

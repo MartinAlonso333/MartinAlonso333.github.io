@@ -178,14 +178,15 @@ Proyecto único en la raíz del repositorio. Paths: `src/`, `public/`,
 
 ## Phase 11: Extensión — Certificados de formación (FR-005)
 
-**Goal**: Cada `EducationItem` puede exponer uno o más certificados descargables o verificables.
+**Goal**: Cada `EducationItem` puede exponer uno o más certificados descargables o verificables; los datos aún desconocidos no se muestran.
 
-**Independent Test**: El curso de JavaScript muestra un botón "Ver certificado"/"View certificate" que abre el PDF en `public/certificates/` (quickstart V3).
+**Independent Test**: El curso de JavaScript no muestra certificado mientras falte su `url` (sin enlace roto ni texto de relleno) ni institución vacía; al completar `url` aparece el botón "Ver certificado"/"View certificate" (quickstart V3).
 
-- [x] T045 [US5] Agregar `Certificate` (`id`, `title`, `issuer`, `date?`, `url`) y `certificates?: Certificate[]` a `EducationItem` en `src/types/content.ts` (contracts/content-model.contract.md, data-model.md)
-- [x] T046 [US5] Agregar el certificado del curso de JavaScript (`title`/`issuer`/`date?`/`url` con comentarios `TODO`) a `education` en `src/content/portfolio.ts` y colocar el PDF placeholder en `public/certificates/curso-javascript.pdf` (FR-005, FR-014, invariante 14)
-- [x] T047 [P] [US5] Agregar `ui.education.viewCertificate` ("Ver certificado"/"View certificate") a `src/content/ui.ts` y renderizar un botón accesible por certificado en `src/components/Education.tsx` (texto accesible con el título; externo ⇒ pestaña nueva con `rel="noopener noreferrer"`; foco visible y objetivo táctil ≥ 44 px) (FR-005, Principio IV)
-- [x] T048 Actualizar documentación: `data-model.md` (entidad Certificate e invariantes 14–15), `contracts/content-model.contract.md`, `spec.md` (FR-005, escenario US5 y entidad Formación) y `quickstart.md` (V3)
+- [x] T045 [US5] Agregar `Certificate` (`id`, `title`, `issuer`, `date?`, `url?`) y `certificates?: Certificate[]` a `EducationItem` en `src/types/content.ts` (contracts/content-model.contract.md, data-model.md)
+- [x] T046 [US5] Agregar el certificado del curso de JavaScript (`title`/`issuer`/`date?` con comentarios `TODO` y `url` ausente) a `education` en `src/content/portfolio.ts`, dejar la institución vacía y preparar `public/certificates/` (FR-005, FR-014, invariante 16)
+- [x] T047 [P] [US5] Agregar `ui.education.viewCertificate` ("Ver certificado"/"View certificate") a `src/content/ui.ts` y renderizar en `src/components/Education.tsx` solo los certificados con `url` (sin enlace roto ni texto de relleno; externo ⇒ pestaña nueva con `rel="noopener noreferrer"`; foco visible y objetivo táctil ≥ 44 px) (FR-005, Principio IV)
+- [x] T048 Actualizar documentación: `data-model.md` (entidad Certificate e invariantes 14–16), `contracts/content-model.contract.md`, `spec.md` (FR-005, escenario US5 y entidad Formación) y `quickstart.md` (V3)
+- [x] T049 Ocultar datos de relleno en el sitio público: un certificado sin `url` no se renderiza (nada de "Emisor pendiente" ni PDF placeholder) y una `institution` vacía no deja espacios ni separadores huérfanos (FR-005, invariante 15)
 
 ---
 

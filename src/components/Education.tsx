@@ -3,7 +3,7 @@
 import { useLanguage } from "@/components/LanguageProvider";
 import { ui } from "@/content/ui";
 import { pick } from "@/lib/i18n";
-import type { EducationItem } from "@/types/content";
+import type { Certificate, EducationItem } from "@/types/content";
 
 function CertificateIcon() {
   return (
@@ -38,7 +38,10 @@ export function Education({ education }: { education: EducationItem[] }) {
       <ul className="space-y-6">
         {education.map((item) => {
           const institution = pick(item.institution, language).trim();
-          const certificates = item.certificates ?? [];
+          const certificates = (item.certificates ?? []).filter(
+            (certificate): certificate is Certificate & { url: string } =>
+              Boolean(certificate.url),
+          );
           return (
             <li key={item.id} className="rounded-lg border border-border bg-muted p-5">
               <div className="flex flex-wrap items-center gap-x-3 gap-y-1">

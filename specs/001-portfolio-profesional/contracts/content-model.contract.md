@@ -55,9 +55,9 @@ export interface SkillCategory {
 export interface Certificate {
   id: string;
   title: LocalizedText;
-  issuer: LocalizedText;
+  issuer: LocalizedText; // puede ser vacío; vacío ⇒ no se muestra
   date?: LocalizedText; // opcional
-  url: string; // PDF en public/certificates/ o URL externa de verificación
+  url?: string; // ausente ⇒ el certificado no se renderiza (sin enlace roto)
 }
 
 export interface EducationItem {
@@ -121,7 +121,8 @@ según el idioma activo; no deben duplicarse en `portfolio.ts` (Principio V):
 | `repository.visibility === 'private'` | `ui.privateRepository` ("Repositorio privado" / "Private repository"), sin enlace |
 | `repository.visibility === 'public' && repository.url` | Botón con el texto `pick(repository.label, language)` (p. ej. "Código backend") → `repository.url` |
 | `repository.visibility === 'public' && !repository.url` | Estado "pendiente": no se renderiza botón ni etiqueta de privado |
-| Cada `certificate` | Botón `ui.education.viewCertificate` ("Ver certificado" / "View certificate") cuyo texto accesible incluye el `title`; externo ⇒ pestaña nueva |
+| Cada `certificate` con `url` | Botón `ui.education.viewCertificate` ("Ver certificado" / "View certificate") cuyo texto accesible incluye el `title`; externo ⇒ pestaña nueva |
+| `certificate` sin `url` | No se renderiza (ni botón, ni título, ni emisor) |
 
 ## Invariantes (verificables en compilación y en revisión)
 
@@ -138,9 +139,10 @@ según el idioma activo; no deben duplicarse en `portfolio.ts` (Principio V):
 7. `photo` ausente o `available === false` ⇒ espacio reservado accesible.
 8. Todo `alt` de imagen con significado es no vacío en ambos idiomas.
 9. Todo `LocalizedText` define `es` y `en`; el compilador lo garantiza.
-10. `certificate.url` no es vacía; si comienza con `http` es externa y se abre en una
-    pestaña nueva con `rel="noopener noreferrer"`; en caso contrario apunta a un PDF en
-    `public/certificates/` y se abre en la misma pestaña.
+10. Un `certificate` sin `url` no se renderiza (sin enlace roto ni texto de relleno); con
+    `url` que comienza con `http` se abre en una pestaña nueva con `rel="noopener noreferrer"`;
+    en caso contrario apunta a un PDF en `public/certificates/` y se abre en la misma pestaña.
+11. Una `institution` vacía no se renderiza (sin espacios ni separadores huérfanos).
 
 ## Expectations
 
@@ -157,6 +159,8 @@ según el idioma activo; no deben duplicarse en `portfolio.ts` (Principio V):
 - **Activar un recurso diferido**: poner `available: true` (y `url` cuando aplique).
 - **Agregar una certificación**: añadir un objeto `Certificate` a `certificates` del
   `EducationItem` correspondiente (o crear el arreglo si no existe) y, si es un PDF,
-  colocar el archivo en `public/certificates/`; no se modifica ningún componente (FR-014).
+  colocar el archivo en `public/certificates/`. Mientras no tenga `url`, el certificado
+  queda **oculto** (sin enlace roto ni texto de relleno); al completar `url` se vuelve
+  visible. No se modifica ningún componente (FR-014).
 - **Orden de render**: `skills`, `education`, `projects`, `contact` y los `repositories`
   de cada proyecto se muestran en el orden del arreglo.
