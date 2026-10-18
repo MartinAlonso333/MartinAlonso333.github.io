@@ -176,6 +176,19 @@ Proyecto único en la raíz del repositorio. Paths: `src/`, `public/`,
 
 ---
 
+## Phase 11: Extensión — Certificados de formación (FR-005)
+
+**Goal**: Cada `EducationItem` puede exponer uno o más certificados descargables o verificables.
+
+**Independent Test**: El curso de JavaScript muestra un botón "Ver certificado"/"View certificate" que abre el PDF en `public/certificates/` (quickstart V3).
+
+- [x] T045 [US5] Agregar `Certificate` (`id`, `title`, `issuer`, `date?`, `url`) y `certificates?: Certificate[]` a `EducationItem` en `src/types/content.ts` (contracts/content-model.contract.md, data-model.md)
+- [x] T046 [US5] Agregar el certificado del curso de JavaScript (`title`/`issuer`/`date?`/`url` con comentarios `TODO`) a `education` en `src/content/portfolio.ts` y colocar el PDF placeholder en `public/certificates/curso-javascript.pdf` (FR-005, FR-014, invariante 14)
+- [x] T047 [P] [US5] Agregar `ui.education.viewCertificate` ("Ver certificado"/"View certificate") a `src/content/ui.ts` y renderizar un botón accesible por certificado en `src/components/Education.tsx` (texto accesible con el título; externo ⇒ pestaña nueva con `rel="noopener noreferrer"`; foco visible y objetivo táctil ≥ 44 px) (FR-005, Principio IV)
+- [x] T048 Actualizar documentación: `data-model.md` (entidad Certificate e invariantes 14–15), `contracts/content-model.contract.md`, `spec.md` (FR-005, escenario US5 y entidad Formación) y `quickstart.md` (V3)
+
+---
+
 ## Dependencies & Execution Order
 
 ### Phase Dependencies
@@ -184,6 +197,7 @@ Proyecto único en la raíz del repositorio. Paths: `src/`, `public/`,
 - **Foundational (Phase 2)**: depende de Setup; BLOQUEA todas las historias.
 - **User Stories (Phase 3+)**: dependen de Foundational; pueden ir en paralelo o en orden de prioridad.
 - **Polish (Phase 9)**: depende de las historias deseadas.
+- **Extensión Certificados (Phase 11)**: depende de US5 (Phase 7, T025); extensión de FR-005.
 
 ### User Story Dependencies
 
@@ -207,7 +221,8 @@ Proyecto único en la raíz del repositorio. Paths: `src/`, `public/`,
 `src/app/layout.tsx` (T012, T036) son archivos compartidos: las tareas que los tocan NO
 deben ejecutarse en paralelo entre sí. `src/lib/content.ts` (T009, T037) y
 `src/components/{Projects,ProjectCard}.tsx` (T018, T019, T036) también se tocan en US2 y
-US7.
+US7. `src/content/ui.ts` (T033, T047) y `src/components/Education.tsx` (T025, T047) también
+se tocan en la extensión de certificados (Phase 11).
 
 ---
 

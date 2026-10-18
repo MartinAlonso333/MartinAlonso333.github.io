@@ -23,6 +23,7 @@ PortfolioContent
 │   └── photo?: PhotoRef              (alt: LocalizedText)
 ├── skills: SkillCategory[]           (name: LocalizedText; skills: SkillItem[])
 ├── education: EducationItem[]        (program/institution/status: LocalizedText)
+│   └── certificates?: Certificate[]  (title/issuer/date?: LocalizedText; url: string)
 ├── projects: Project[]               (name/description/highlights: LocalizedText)
 │   └── repositories: RepositoryRef[] (label: LocalizedText)
 ├── contact: ContactLink[]            (label/value: LocalizedText)
@@ -88,6 +89,24 @@ Formación (FR-005).
 - `institution: LocalizedText` — institución (p. ej. "FIUBA")
 - `status: LocalizedText` — "Cursando 4.º año"/"Currently in 4th year", etc.
 - `type: 'grado' | 'curso'` — etiqueta de tipo localizada en `ui.educationType`
+- `certificates?: Certificate[]` — certificados asociados (**opcional**, ≥ 1 si se define)
+
+### Certificate
+Certificado asociado a un ítem de formación (FR-005).
+- `id: string` — identificador estable y único dentro de los certificados del ítem
+- `title: LocalizedText` — título del certificado
+- `issuer: LocalizedText` — emisor
+- `date?: LocalizedText` — fecha de emisión (**opcional**)
+- `url: string` — enlace al PDF (`/certificates/<archivo>.pdf` en `public/certificates/`)
+  o a una URL externa de verificación (`https://…`)
+
+#### Render de un certificado (FR-005)
+- Se muestra un botón accesible "Ver certificado" / "View certificate" con ícono, cuyo texto
+  accesible indica a qué certificado lleva (incluye el `title`).
+- **Externo** (`url` comienza con `http`) ⇒ se abre en una **pestaña nueva** con
+  `rel="noopener noreferrer"`.
+- **Interno** (PDF en `public/certificates/`) ⇒ se abre en la misma pestaña.
+- El botón es operable por teclado, con foco visible y objetivo táctil ≥ 44 px (Principio IV).
 
 ### Project
 Proyecto destacado (FR-006, FR-007).
@@ -138,7 +157,8 @@ Botón de descarga del CV (FR-011).
 
 ## Reglas de validación (invariantes)
 
-1. `id` único dentro de cada colección (`skills`, `education`, `projects`).
+1. `id` único dentro de cada colección (`skills`, `education`, `projects`) y dentro de los
+   `certificates` de cada `EducationItem`.
 2. `repositories` tiene al menos un elemento por proyecto.
 3. `repository.visibility === 'private'` ⇒ `url` ausente; no se renderiza enlace; se muestra
    la etiqueta "Repositorio privado" / "Private repository".
@@ -158,6 +178,11 @@ Botón de descarga del CV (FR-011).
     compilación.
 13. El idioma activo por defecto es `en`; si no hay preferencia guardada, se muestra `en`
     (visible incluso sin JavaScript).
+14. `certificate.url` no es vacía; si comienza con `http` es externa y se abre en una
+    pestaña nueva con `rel="noopener noreferrer"`; en caso contrario apunta a un PDF en
+    `public/certificates/` y se abre en la misma pestaña.
+15. Agregar una certificación es un cambio de datos: solo se añade una entrada a
+    `certificates` en `src/content/portfolio.ts`, sin tocar componentes (FR-014).
 
 ## Estados y transiciones
 
@@ -166,6 +191,8 @@ Botón de descarga del CV (FR-011).
   (quitar `url`). Ambos son cambios de datos.
 - **Recursos diferidos** (`photo`, `cv`, LinkedIn): `available: false → true` al
   incorporar el recurso. Todos son cambios de datos.
+- **Certificación**: `ausente → presente` al agregar una entrada a `certificates` de un
+  `EducationItem`; cambio de datos, sin tocar componentes.
 - **Idioma**: `es ↔ en` por acción del visitante; se persiste en `localStorage` (contrato
   `language.contract.md`). No cambia la URL.
 
@@ -177,6 +204,7 @@ Botón de descarga del CV (FR-011).
 | Profile / SpokenLanguage / PhotoRef | FR-002, FR-003 |
 | SkillCategory | FR-004 |
 | EducationItem | FR-005 |
+| Certificate | FR-005 |
 | Project / RepositoryRef | FR-006, FR-007, FR-008, FR-009 |
 | ContactLink | FR-010 |
 | CvResource | FR-011 |

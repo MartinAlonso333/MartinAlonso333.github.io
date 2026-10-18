@@ -93,10 +93,26 @@ export const portfolio: PortfolioContent = {
     {
       id: "curso-javascript",
       program: { es: "Curso de JavaScript", en: "JavaScript Course" },
-      // TODO: completar la institución del curso de JavaScript.
-      institution: { es: "", en: "" },
+      // TODO: completar la institución real del curso de JavaScript.
+      institution: { es: "Institución pendiente", en: "Institution pending" },
       status: { es: "Completado", en: "Completed" },
       type: "curso",
+      certificates: [
+        {
+          id: "curso-javascript",
+          // TODO: completar el título real del certificado.
+          title: {
+            es: "Certificado del curso de JavaScript",
+            en: "JavaScript Course Certificate",
+          },
+          // TODO: completar el emisor real del certificado.
+          issuer: { es: "Emisor pendiente", en: "Issuer pending" },
+          // TODO: completar la fecha de emisión (opcional):
+          // date: { es: "Mes Año", en: "Month Year" },
+          // TODO: reemplazar por el PDF real en public/certificates/ o un enlace de verificación externo.
+          url: "/certificates/curso-javascript.pdf",
+        },
+      ],
     },
   ],
   projects: [

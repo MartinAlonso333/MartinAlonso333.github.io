@@ -41,6 +41,9 @@ export interface UiContent {
     grado: LocalizedText;
     curso: LocalizedText;
   };
+  education: {
+    viewCertificate: LocalizedText;
+  };
   languageToggle: {
     label: LocalizedText;
     target: LocalizedText;
@@ -105,6 +108,9 @@ export const ui: UiContent = {
   educationType: {
     grado: { es: "Grado", en: "Degree" },
     curso: { es: "Curso", en: "Course" },
+  },
+  education: {
+    viewCertificate: { es: "Ver certificado", en: "View certificate" },
   },
   languageToggle: {
     label: { es: "Cambiar a inglés", en: "Switch to Spanish" },

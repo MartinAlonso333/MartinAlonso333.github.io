@@ -39,12 +39,24 @@ export interface SkillCategory {
   skills: SkillItem[];
 }
 
+export interface Certificate {
+  id: string;
+  title: LocalizedText;
+  issuer: LocalizedText;
+  /** Fecha de emisión, opcional. */
+  date?: LocalizedText;
+  /** URL a un PDF en `public/certificates/` o a un enlace externo de verificación. */
+  url: string;
+}
+
 export interface EducationItem {
   id: string;
   program: LocalizedText;
   institution: LocalizedText;
   status: LocalizedText;
   type: "grado" | "curso";
+  /** Certificados asociados a la formación (opcional). */
+  certificates?: Certificate[];
 }
 
 export interface RepositoryRef {

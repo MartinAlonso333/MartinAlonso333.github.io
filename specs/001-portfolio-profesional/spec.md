@@ -98,6 +98,7 @@ Un visitante revisa la formación académica y complementaria de Franco.
 **Acceptance Scenarios**:
 
 1. **Given** un visitante revisa la sección de formación, **When** la recorre, **Then** ve la carrera de Ingeniería Informática en FIUBA (cursando 4.º año) y el curso de JavaScript.
+2. **Given** una formación con certificado disponible, **When** el visitante la revisa, **Then** ve un enlace accesible "Ver certificado" / "View certificate" que lo lleva al PDF o a la verificación externa correspondiente.
 
 ---
 
@@ -152,7 +153,7 @@ Un visitante que prefiere leer en inglés (o un reclutador internacional) puede 
 - **FR-002**: El sitio MUST presentar el nombre completo (Franco Martín Alonso), el título profesional (estudiante de 4.º año de Ingeniería Informática en FIUBA, en busca de pasantía o primer empleo como desarrollador backend), una descripción breve, la ubicación (Buenos Aires, Argentina) y los idiomas (español nativo, inglés intermedio, portugués básico).
 - **FR-003**: La presentación MUST incluir un espacio reservado para la foto de perfil, que se incorporará más adelante, sin que su ausencia rompa el diseño.
 - **FR-004**: El sitio MUST incluir una sección de habilidades agrupadas por categoría: Lenguajes (Java, C++, TypeScript, JavaScript, Python), Backend (Spring Boot 3.x, Spring Data JPA, Hibernate, Spring Security, Maven, Gradle, REST APIs, JUnit), Bases de datos (PostgreSQL), Infraestructura y monitoreo (Docker, Spring Boot Actuator, Git, GitHub, GitHub Actions, Render), Frontend (React, Next.js, Tailwind CSS, HTML and CSS, JavaFX) y Metodología (Spec-Driven Development con Spec Kit).
-- **FR-005**: El sitio MUST incluir una sección de formación con, al menos, Ingeniería Informática en FIUBA (cursando 4.º año) y un curso de JavaScript.
+- **FR-005**: El sitio MUST incluir una sección de formación con, al menos, Ingeniería Informática en FIUBA (cursando 4.º año) y un curso de JavaScript. Cada formación MUST poder exponer, de forma opcional, uno o más certificados, cada uno con un enlace accesible (PDF propio o verificación externa) operable por teclado, con foco visible y objetivo táctil suficiente; los enlaces externos MUST abrirse en una pestaña nueva sin exponer la página de origen.
 - **FR-006**: El sitio MUST incluir una sección de proyectos destacados que contenga los cuatro proyectos: Al Toque, el simulador de granja multijugador y multihilo en C++, PSA y Yet Another Battle City.
 - **FR-007**: Cada proyecto MUST mostrar nombre, descripción, puntos clave, tecnologías y su estado.
 - **FR-008**: Cada proyecto MUST exponer una lista de repositorios, cada uno con una etiqueta. Los repositorios MUST mostrarse como enlaces a GitHub cuando su enlace esté disponible; los repositorios privados (Al Toque y el simulador de granja) MUST mostrar la etiqueta "Repositorio privado" en lugar de un enlace; los repositorios públicos cuyo enlace aún no esté disponible MUST mostrarse como pendientes (sin enlace y sin la etiqueta de privado), sin generar enlaces rotos.
@@ -171,7 +172,7 @@ Un visitante que prefiere leer en inglés (o un reclutador internacional) puede 
 - **Perfil**: información de presentación de Franco; atributos: nombre completo, título profesional, descripción breve, ubicación, idiomas, referencia a foto (opcional/futura).
 - **Habilidad**: tecnología o competencia individual; atributos: nombre; pertenece a una categoría.
 - **Categoría de habilidad**: agrupación de habilidades; atributos: nombre (Lenguajes, Backend, Bases de datos, Infraestructura y monitoreo, Frontend, Metodología); contiene varias habilidades.
-- **Formación**: estudio o curso realizado; atributos: nombre, institución, estado (por ejemplo, cursando), tipo.
+- **Formación**: estudio o curso realizado; atributos: nombre, institución, estado (por ejemplo, cursando), tipo y certificados asociados (opcional); cada certificado tiene título, emisor, fecha (opcional) y un enlace a su PDF o a una verificación externa.
 - **Proyecto**: trabajo mostrado; atributos: nombre, descripción, puntos clave, tecnologías, estado (en desarrollo / finalizado) y lista de repositorios; cada repositorio tiene etiqueta (por ejemplo, "Código fuente", "Código backend"), visibilidad (público / privado) y enlace a GitHub cuando esté disponible (los públicos sin enlace quedan pendientes).
 - **Medio de contacto**: canal para contactar a Franco; atributos: tipo (correo, GitHub, LinkedIn), valor, disponibilidad (disponible o pendiente).
 - **Texto localizado**: todo texto legible (títulos, descripciones, etiquetas) existe en español y en inglés; la interfaz también se localiza y el contenido no se duplica como bloques separados en la página.

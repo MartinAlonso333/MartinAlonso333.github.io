@@ -52,12 +52,21 @@ export interface SkillCategory {
   skills: SkillItem[]; // nombres propios como string (no se traducen) o frases localizables
 }
 
+export interface Certificate {
+  id: string;
+  title: LocalizedText;
+  issuer: LocalizedText;
+  date?: LocalizedText; // opcional
+  url: string; // PDF en public/certificates/ o URL externa de verificación
+}
+
 export interface EducationItem {
   id: string;
   program: LocalizedText;
   institution: LocalizedText;
   status: LocalizedText;
   type: 'grado' | 'curso'; // la etiqueta visible se localiza en `ui.educationType`
+  certificates?: Certificate[]; // opcional; 0..n certificados asociados
 }
 
 export interface RepositoryRef {
@@ -112,10 +121,12 @@ según el idioma activo; no deben duplicarse en `portfolio.ts` (Principio V):
 | `repository.visibility === 'private'` | `ui.privateRepository` ("Repositorio privado" / "Private repository"), sin enlace |
 | `repository.visibility === 'public' && repository.url` | Botón con el texto `pick(repository.label, language)` (p. ej. "Código backend") → `repository.url` |
 | `repository.visibility === 'public' && !repository.url` | Estado "pendiente": no se renderiza botón ni etiqueta de privado |
+| Cada `certificate` | Botón `ui.education.viewCertificate` ("Ver certificado" / "View certificate") cuyo texto accesible incluye el `title`; externo ⇒ pestaña nueva |
 
 ## Invariantes (verificables en compilación y en revisión)
 
-1. `id` único dentro de `skills`, `education` y `projects`.
+1. `id` único dentro de `skills`, `education` y `projects`, y dentro de los `certificates` de
+   cada `EducationItem`.
 2. `repository.visibility === 'private'` ⇒ `repository.url` ausente y los componentes no
    renderizan enlace; se muestra la etiqueta de repositorio privado.
 3. `repository.visibility === 'public' && repository.url` ⇒ la URL no es vacía y se
@@ -127,6 +138,9 @@ según el idioma activo; no deben duplicarse en `portfolio.ts` (Principio V):
 7. `photo` ausente o `available === false` ⇒ espacio reservado accesible.
 8. Todo `alt` de imagen con significado es no vacío en ambos idiomas.
 9. Todo `LocalizedText` define `es` y `en`; el compilador lo garantiza.
+10. `certificate.url` no es vacía; si comienza con `http` es externa y se abre en una
+    pestaña nueva con `rel="noopener noreferrer"`; en caso contrario apunta a un PDF en
+    `public/certificates/` y se abre en la misma pestaña.
 
 ## Expectations
 
@@ -141,5 +155,8 @@ según el idioma activo; no deben duplicarse en `portfolio.ts` (Principio V):
   uno con su `label` localizado ("Código backend", "Código frontend"); todos se muestran
   en la misma tarjeta.
 - **Activar un recurso diferido**: poner `available: true` (y `url` cuando aplique).
+- **Agregar una certificación**: añadir un objeto `Certificate` a `certificates` del
+  `EducationItem` correspondiente (o crear el arreglo si no existe) y, si es un PDF,
+  colocar el archivo en `public/certificates/`; no se modifica ningún componente (FR-014).
 - **Orden de render**: `skills`, `education`, `projects`, `contact` y los `repositories`
   de cada proyecto se muestran en el orden del arreglo.
