@@ -70,8 +70,20 @@ export const portfolio: PortfolioContent = {
     },
     {
       id: "metodologia",
-      name: { es: "Metodología", en: "Methodology" },
+      name: { es: "Metodologia", en: "Methodology" },
       skills: [
+        {
+          es: "Scrum",
+          en: "Scrum",
+        },
+        {
+          es: "TDD (Test-Driven Development)",
+          en: "TDD (Test-Driven Development)",
+        },
+        {
+          es: "DDD (Domain-Driven Design)",
+          en: "DDD (Domain-Driven Design)",
+        },
         {
           es: "Spec-Driven Development con Spec Kit",
           en: "Spec-Driven Development with Spec Kit",
@@ -102,8 +114,8 @@ export const portfolio: PortfolioContent = {
           id: "curso-javascript",
           // TODO: completar el título real del certificado.
           title: {
-            es: "Certificado del curso de JavaScript",
-            en: "JavaScript Course Certificate",
+            es: "JavaScript Desarrollador Avanzado",
+            en: "JavaScript Desarrollador Avanzado",
           },
           // TODO: completar el emisor real del certificado (vacío ⇒ no se muestra).
           issuer: { es: "", en: "" },
@@ -250,6 +262,6 @@ export const portfolio: PortfolioContent = {
   cv: {
     url: "/cv.pdf",
     fileName: "Franco-Martin-Alonso-CV.pdf",
-    available: false,
+    available: true,
   },
 };
