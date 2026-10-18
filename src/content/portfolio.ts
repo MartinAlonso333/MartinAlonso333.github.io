@@ -56,7 +56,7 @@ export const portfolio: PortfolioContent = {
     {
       id: "bases-de-datos",
       name: { es: "Bases de datos", en: "Databases" },
-      skills: ["PostgreSQL"],
+      skills: ["PostgreSQL","MongoDB"]
     },
     {
       id: "infraestructura",
