@@ -256,7 +256,7 @@ export const portfolio: PortfolioContent = {
       kind: "linkedin",
       label: { es: "LinkedIn", en: "LinkedIn" },
       value: { es: "franco-martin-alonso", en: "franco-martin-alonso" },
-      url: "linkedin.com/in/franco-martin-alonso",
+      url: "https://www.linkedin.com/in/franco-martin-alonso/",
       available: true,
     },
   ],
