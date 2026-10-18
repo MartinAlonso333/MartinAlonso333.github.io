@@ -104,9 +104,9 @@ export const portfolio: PortfolioContent = {
     },
     {
       id: "curso-javascript",
-      program: { es: "Curso de JavaScript", en: "JavaScript Course" },
+      program: { es: "Certificacion en JavaScript", en: "JavaScript certification" },
       // TODO: completar la institución real del curso. Vacío ⇒ no se muestra (sin espacios huérfanos).
-      institution: { es: "", en: "" },
+      institution: { es: "EducaciónIT", en: "EducaciónIT" },
       status: { es: "Completado", en: "Completed" },
       type: "curso",
       certificates: [
@@ -118,12 +118,12 @@ export const portfolio: PortfolioContent = {
             en: "JavaScript Desarrollador Avanzado",
           },
           // TODO: completar el emisor real del certificado (vacío ⇒ no se muestra).
-          issuer: { es: "", en: "" },
+          issuer: { es: "EducaciónIT", en: "EducaciónIT" },
           // TODO: completar la fecha de emisión (opcional):
           // date: { es: "Mes Año", en: "Month Year" },
           // TODO: agregar `url` (PDF en public/certificates/<archivo>.pdf o enlace externo
           // de verificación). Mientras falte, el certificado queda oculto (sin enlace roto).
-          // url: "/certificates/curso-javascript.pdf",
+          url: "/public/cv.pdf",
         },
       ],
     },
@@ -255,8 +255,9 @@ export const portfolio: PortfolioContent = {
     {
       kind: "linkedin",
       label: { es: "LinkedIn", en: "LinkedIn" },
-      value: { es: "Próximamente", en: "Coming soon" },
-      available: false,
+      value: { es: "franco-martin-alonso", en: "franco-martin-alonso" },
+      url: "linkedin.com/in/franco-martin-alonso",
+      available: true,
     },
   ],
   cv: {
