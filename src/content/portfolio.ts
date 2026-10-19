@@ -123,7 +123,7 @@ export const portfolio: PortfolioContent = {
           // date: { es: "Mes Año", en: "Month Year" },
           // TODO: agregar `url` (PDF en public/certificates/<archivo>.pdf o enlace externo
           // de verificación). Mientras falte, el certificado queda oculto (sin enlace roto).
-          url: "/public/cv.pdf",
+          url: "public/certificates/Certificado-Javascript-Desarrollador-Avanzado-EducaciónIT.pdf",
         },
       ],
     },
