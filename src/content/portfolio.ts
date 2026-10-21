@@ -92,7 +92,7 @@ export const portfolio: PortfolioContent = {
     },
   ],
   education: [
-    {
+        {
       id: "fiuba",
       program: { es: "Ingeniería Informática", en: "Computer Engineering" },
       institution: {
@@ -100,6 +100,19 @@ export const portfolio: PortfolioContent = {
         en: "School of Engineering, University of Buenos Aires (FIUBA)",
       },
       status: { es: "Cursando 4.º año", en: "Currently in 4th year" },
+      type: "grado",
+    },
+    {
+      id: "bachillerato-fiuba",
+      program: {
+        es: "Bachillerato Universitario en Ciencias de la Ingeniería",
+        en: "University Bachelor's Degree in Engineering Sciences",
+      },
+      institution: {
+        es: "Facultad de Ingeniería de la Universidad de Buenos Aires (FIUBA)",
+        en: "School of Engineering, University of Buenos Aires (FIUBA)",
+      },
+      status: { es: "Marzo 2023 – Agosto 2026", en: "March 2023 – August 2026" },
       type: "grado",
     },
     {
