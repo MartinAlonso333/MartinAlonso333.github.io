@@ -10,10 +10,12 @@ export const portfolio: PortfolioContent = {
     summary: {
       es:
         "Estudiante de Ingeniería Informática en la Universidad de Buenos Aires (FIUBA), actualmente en cuarto año, orientado al desarrollo backend y a la programación de sistemas.\n\n" +
-        "Disfruto resolver problemas complejos, diseñar APIs limpias y construir software confiable y mantenible. Hoy trabajo en un juego multihilo en C++ y en una plataforma de servicios construida con Spring Boot. Escribo código a mano y también uso Spec-Driven Development con agentes de IA para acelerar mi trabajo, revisando todo lo que entrego. Busco una pasantía o un primer empleo que me permita seguir creciendo como desarrollador backend.",
+        "Soy desarrollador backend y también diseño la interfaz de mis productos y la construyo con herramientas de IA. Disfruto resolver problemas complejos, diseñar APIs limpias y construir software confiable y mantenible. Escribo código a mano, uso la IA para acelerar mi trabajo y reviso todo lo que entrego.\n\n" +
+        "Busco una pasantía o un primer empleo que me permita seguir creciendo como desarrollador backend.",
       en:
         "Computer Engineering student at the University of Buenos Aires (FIUBA), currently in my fourth year, focused on backend development and systems programming.\n\n" +
-        "I enjoy solving complex problems, designing clean APIs, and building reliable, maintainable software. Right now I'm working on a multithreaded C++ game and a service marketplace built with Spring Boot. I write code by hand and also use Spec-Driven Development with AI coding agents to speed up my workflow, reviewing everything I ship. I'm looking for an internship or a first role where I can keep growing as a backend developer.",
+        "I'm a backend developer who also designs product UI and builds it with AI tools. I enjoy solving complex problems, designing clean APIs, and building reliable, maintainable software. I write code by hand, use AI to speed up my work, and review everything I ship.\n\n" +
+        "I'm looking for an internship or a first role where I can keep growing as a backend developer.",
     },
     location: {
       es: "Buenos Aires, Argentina",
@@ -195,8 +197,8 @@ export const portfolio: PortfolioContent = {
           en: "Teamwork using Spec-Driven Development",
         },
         {
-          es: "A cargo del backend y del frontend",
-          en: "Responsible for the backend and the frontend",
+          es: "A cargo del backend y del diseño de la interfaz (implementada con IA)",
+          en: "Responsible for the backend and the UI design (implemented with AI)",
         },
         {
           es: "API REST con Spring Boot y Spring Data JPA",
