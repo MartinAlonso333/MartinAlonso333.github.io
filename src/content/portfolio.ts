@@ -175,7 +175,7 @@ export const portfolio: PortfolioContent = {
         "Tailwind CSS",
         "Electron",
       ],
-      status: "in-progress",
+      status: "completed",
       repositories: [
         {
           label: { es: "Instalador y videos", en: "Installer and videos" },
